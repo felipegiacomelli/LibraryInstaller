@@ -26,6 +26,7 @@ class Petsc(Library):
         commands = Library.appendCommand(self, message="Running configure", command="python2 ./configure CC=$CC CXX=$CXX %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
         commands = commands + Library.appendCommand(self, message="Building", command="make MAKE_NP=%s all" % self.numberOfCores)
         commands = commands + Library.appendCommand(self, message="Installing", command="make install")
+        commands = commands + Library.appendCommand(self, message="Testing", command="make test")
 
         p = subprocess.Popen(["sh", "-c", commands], env=dict(os.environ, CC="mpicc", CXX="mpicxx", PETSC_ARCH=self.buildType, PETSC_DIR=self.sourceDirectory), stdout=self.logFile)
         p.wait()
