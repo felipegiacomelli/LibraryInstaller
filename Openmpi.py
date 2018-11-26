@@ -1,5 +1,3 @@
-import os
-
 from Library import Library
 
 class Openmpi(Library):

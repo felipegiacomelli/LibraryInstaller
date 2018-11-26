@@ -3,6 +3,8 @@ import os
 import Settings
 
 from Openmpi import Openmpi
+# from Boost import Boost
+from Petsc import Petsc
 
 if __name__ == "__main__":
 
@@ -29,5 +31,5 @@ if __name__ == "__main__":
     #     boost.install()
 
     if Settings.libraries[2][0] == "petsc" and Settings.libraries[2][1] == "3.10.2" and Settings.libraries[2][2]:
-        boost = Boost(options, Settings.libraries[2][0], Settings.libraries[2][1])
-        boost.install()
+        petsc = Petsc(options, Settings.libraries[2][0], Settings.libraries[2][1])
+        petsc.install()

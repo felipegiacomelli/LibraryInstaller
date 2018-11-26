@@ -1,6 +1,5 @@
 import os
 import subprocess
-import multiprocessing
 
 class Library(object):
     def __init__(self, options, name, version):
