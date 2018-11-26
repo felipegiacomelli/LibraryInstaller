@@ -1,14 +1,16 @@
 import os
+import multiprocessing
 
 rootBuildDirectory = os.environ["HOME"] + "/Delete"
-rootInstallDirectory = os.environ["HOME"] + "/Libraries"
+rootInstallDirectory = os.environ["HOME"] + "/libraries"
 
-buildType="Debug"
-libraryType="Shared"
+buildType = "Debug"
+libraryType = "Shared"
 
-environmentVariables=True
+environmentVariables = True
 
-############### external packages ###############
+numberOfCores = str(multiprocessing.cpu_count())
+
 libraries = [
     ["openmpi"  , "3.0.1" , True],
     ["boost"    , "1.68.0", True],

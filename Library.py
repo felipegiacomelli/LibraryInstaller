@@ -3,22 +3,23 @@ import subprocess
 import multiprocessing
 
 class Library(object):
-    def __init__(self, rootBuildDirectory, rootInstallDirectory, buildType, libraryType, environmentVariables, name, version):
-        self.buildType = buildType
-        self.libraryType = libraryType
-        self.environmentVariables = environmentVariables
+    def __init__(self, options, name, version):
+        self.buildType = options["buildType"]
+        self.libraryType = options["libraryType"]
+        self.environmentVariables = options["environmentVariables"]
+        self.numberOfCores = options["numberOfCores"]
 
         self.flags = {"Configure" : "", "Static" : "", "Shared" : "", "Debug" : "", "Release" : "", "" : ""}
 
         self.downloadLink = ""
 
         self.library = "%s-%s" % (name, version)
-        self.buildDirectory = "%s/%s/%s/%s" % (rootBuildDirectory, self.library, buildType, libraryType)
-        self.installDirectory = "%s/%s/%s/%s" % (rootInstallDirectory, self.library, buildType, libraryType)
+        self.buildDirectory = "%s/%s/%s/%s" % (options["rootBuildDirectory"], self.library, self.buildType, self.libraryType)
+        self.installDirectory = "%s/%s/%s/%s" % (options["rootInstallDirectory"], self.library, self.buildType, self.libraryType)
         self.logFile = open("%s/%s.log" % (self.buildDirectory, self.library), "w")
         self.compressedLibrary = "%s/%s.tar.gz" % (os.environ["LIBRARIES_FILES"], self.library)
         self.sourceDirectory = "%s/%s" % (self.buildDirectory, self.library)
-        self.libraryDirectory = "%s/%s" % (rootInstallDirectory, self.library)
+        self.libraryDirectory = "%s/%s" % (options["rootInstallDirectory"], self.library)
         self.libraryEnvironmentVariable = "%s_DIR" % name.upper()
 
     def writeMessage(self, message):
@@ -39,14 +40,14 @@ class Library(object):
         self.writeMessage("Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        # self.writeMessage("Running configure")
-        # self.runCommand("./configure %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
+        self.writeMessage("Running configure")
+        self.runCommand("./configure %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
 
-        # self.writeMessage("Building")
-        # self.runCommand("make -j %s" % str(multiprocessing.cpu_count()))
+        self.writeMessage("Building")
+        self.runCommand("make -j %s" % self.numberOfCores)
 
-        # self.writeMessage("Installing")
-        # self.runCommand("make install")
+        self.writeMessage("Installing")
+        self.runCommand("make install")
 
         self.writeMessage("Build directory: %s" % self.buildDirectory)
         self.writeMessage("Compressed library: %s" % self.compressedLibrary)
