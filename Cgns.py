@@ -6,7 +6,6 @@ from Library import Library
 class Cgns(Library):
     def __init__(self, options, name, version):
         Library.__init__(self, options, name, version)
-        # super(Cgns, self).__init__(options, name, version)
 
         self.flags["Configure"] = "--without-fortran --disable-cgnstools"
         self.flags["Static"]    = "--disable-shared"
