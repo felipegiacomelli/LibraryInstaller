@@ -82,7 +82,7 @@ class Library(object):
         self.writeMessage("Install directory: %s" % self.installDirectory)
         self.writeMessage("Log file: %s" % self.logFile.name)
 
-    def exportEnvironmentVariables(self, extra):
+    def exportEnvironmentVariables(self, extra=""):
         if self.environmentVariables:
             self.exportName(self.libraryEnvironmentVariable, "%s/%s" % (self.libraryDirectory, extra))
 

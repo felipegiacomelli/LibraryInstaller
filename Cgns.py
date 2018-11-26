@@ -35,4 +35,4 @@ class Cgns(Library):
 
         Library.displayEndMessage(self)
 
-        Library.exportEnvironmentVariables(self, extra="")
+        Library.exportEnvironmentVariables(self)
