@@ -10,6 +10,7 @@ from Cgns import Cgns
 from Muparser import Muparser
 from Hdf5 import Hdf5
 from Metis import Metis
+from Cgnstools import Cgnstools
 
 def red(message):
     return "\n%s%s%s" % ("\033[1;31m", message, "\033[0m")
@@ -59,5 +60,5 @@ if __name__ == "__main__":
         metis.install()
 
     if Settings.libraries[7][0] == "cgnstools" and Settings.libraries[7][1] == "3.3.1" and Settings.libraries[7][2]:
-        metis = Metis(options, Settings.libraries[7][0], Settings.libraries[7][1])
-        metis.install()
+        cgnstools = Cgnstools(options, Settings.libraries[7][0], Settings.libraries[7][1])
+        cgnstools.install()

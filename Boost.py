@@ -30,7 +30,7 @@ class Boost(Library):
         self.writeMessage("Running configure")
         self.runCommand("./bootstrap.sh %s --prefix=%s" % (self.pythonConfigureFlags, self.installDirectory))
 
-        self.writeMessage("Add 'using mpi ;' to file %s/project-config.jam" % self.sourceDirectory)
+        self.writeMessage("Add \"using mpi ;\" to file %s/project-config.jam" % self.sourceDirectory)
         projectConfig = open("%s/project-config.jam" % self.sourceDirectory, "a")
         projectConfig.write("using mpi ;")
         projectConfig.close()
