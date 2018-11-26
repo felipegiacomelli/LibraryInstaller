@@ -21,7 +21,7 @@ class Cgnstools(Library):
         hdf5.libraryDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, hdf5.library)
         hdf5.environmentVariable = False
         hdf5Directory = hdf5.libraryDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, hdf5.library)
-        # hdf5.install()
+        hdf5.install()
 
         cgns  = Cgns(self.options, "cgns", "3.3.1")
         cgns.flags["Configure"] = "--without-fortran --disable-shared --with-zlib --enable-cgnstools --disable-debug --with-hdf5=%s" % hdf5Directory
