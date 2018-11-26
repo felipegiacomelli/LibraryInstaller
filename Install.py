@@ -20,7 +20,7 @@ if __name__ == "__main__":
         "environmentVariables" : Settings.environmentVariables,
         "numberOfCores" : Settings.numberOfCores
     }
-    print("\noptions: ")
+    print("\n\033[1;31moptions\033[0m: ")
     for keys,values in options.items():
         print("\t%s : %s" % (keys, values))
 
