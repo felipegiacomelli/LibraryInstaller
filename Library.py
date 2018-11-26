@@ -1,4 +1,5 @@
 import os
+import io
 import subprocess
 
 class Library(object):
@@ -15,7 +16,7 @@ class Library(object):
         self.library = "%s-%s" % (name, version)
         self.buildDirectory = "%s/%s/%s/%s" % (options["rootBuildDirectory"], self.library, self.buildType, self.libraryType)
         self.installDirectory = "%s/%s/%s/%s" % (options["rootInstallDirectory"], self.library, self.buildType, self.libraryType)
-        self.logFile = open("%s/%s.log" % (self.buildDirectory, self.library), "w")
+        self.logFile = io.StringIO()
         self.compressedLibrary = "%s/%s.tar.gz" % (os.environ["LIBRARIES_FILES"], self.library)
         self.sourceDirectory = "%s/%s" % (self.buildDirectory, self.library)
         self.libraryDirectory = "%s/%s" % (options["rootInstallDirectory"], self.library)
@@ -48,16 +49,13 @@ class Library(object):
         self.writeMessage("Installing")
         self.runCommand("make install")
 
-        self.writeMessage("Build directory: %s" % self.buildDirectory)
-        self.writeMessage("Compressed library: %s" % self.compressedLibrary)
-        self.writeMessage("Install directory: %s" % self.installDirectory)
-        self.writeMessage("Log file: %s" % self.logFile.name)
+        self.displayEndMessage()
 
     def setup(self):
         if not os.path.exists(self.buildDirectory):
             os.makedirs(self.buildDirectory)
 
-        self.writeMessage("Initializing log file")
+        self.logFile = open("%s/%s.log" % (self.buildDirectory, self.library), "w")
         self.logFile.write("\n")
 
         self.writeMessage("Building %s" % self.library)
@@ -78,6 +76,12 @@ class Library(object):
                 self.runCommand("wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
                 self.runCommand("tar -x -z -f %s -C %s" % (self.compressedLibrary, self.buildDirectory))
 
+    def displayEndMessage(self):
+        self.writeMessage("Build directory: %s" % self.buildDirectory)
+        self.writeMessage("Compressed library: %s" % self.compressedLibrary)
+        self.writeMessage("Install directory: %s" % self.installDirectory)
+        self.writeMessage("Log file: %s" % self.logFile.name)
+
     def exportEnvironmentVariables(self, extra):
         if self.environmentVariables:
             self.exportName(self.libraryEnvironmentVariable, "%s/%s" % (self.libraryDirectory, extra))
@@ -86,6 +90,13 @@ class Library(object):
         bashrc = open("%s/.bashrc" % os.environ["HOME"], "a")
         bashrc.write("export %s=%s\n" % (name, value))
         bashrc.close()
+
+    def appendCommand(self, message, command):
+        final = "echo -e \"\n%s\n\" | tee -a %s && " % (message, self.logFile.name)
+
+        final = final + "echo -e \"\n`pwd`\$ %s\n\" && " % command
+
+        return final + "%s 2>>%s >> %s;" % (command, self.logFile.name, self.logFile.name)
 
     def __del__(self):
         self.logFile.close()

@@ -1,9 +1,12 @@
+import os
+import subprocess
+
 from Library import Library
 
 class Cgns(Library):
-    def __init__(self, rootBuildDirectory, rootInstallDirectory, buildType, libraryType, exportEnvironmentVariables, name, version):
-        buildType = ""
-        Library.__init__(self, rootBuildDirectory, rootInstallDirectory, buildType, libraryType, exportEnvironmentVariables, name, version)
+    def __init__(self, options, name, version):
+        Library.__init__(self, options, name, version)
+        # super(Cgns, self).__init__(options, name, version)
 
         self.flags["Configure"] = "--without-fortran --disable-cgnstools"
         self.flags["Static"]    = "--disable-shared"
@@ -13,9 +16,24 @@ class Cgns(Library):
 
         self.downloadLink = "https://github.com/CGNS/CGNS/archive/v3.3.1.tar.gz"
 
-        # export LIBS="-ldl"
-        # export CLIBS="-ldl"
-        # export FLIBS="-ldl"
-
     def install(self):
-        Library.install(self)
+        Library.setup(self)
+
+        Library.extractLibrary(self)
+        if not os.path.exists(self.sourceDirectory):
+            Library.runCommand(self, "mv %s/CGNS-3.3.1 %s" % (self.buildDirectory, self.sourceDirectory))
+
+        Library.writeMessage(self, "Moving to source directory")
+        os.chdir("%s/src" % self.sourceDirectory)
+
+        commands = Library.appendCommand(self, message="Running configure", command="./configure %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
+        commands = commands + Library.appendCommand(self, message="Building", command="make -j %s" % self.numberOfCores)
+        commands = commands + Library.appendCommand(self, message="Testing", command="make test")
+        commands = commands + Library.appendCommand(self, message="Installing", command="make install")
+
+        p = subprocess.Popen(["sh", "-c", commands], env=dict(os.environ, LIBS="-ldl", CLIBS="-ldl", FLIBS="-ldl"), stdout=self.logFile)
+        p.wait()
+
+        Library.displayEndMessage(self)
+
+        Library.exportEnvironmentVariables(self, extra="")

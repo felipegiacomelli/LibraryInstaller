@@ -23,19 +23,13 @@ class Petsc(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        commands = self.appendCommand(message="Running configure", command="python2 ./configure CC=$CC CXX=$CXX %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
-        commands = commands + self.appendCommand(message="Building", command="make MAKE_NP=%s all" % self.numberOfCores)
-        commands = commands + self.appendCommand(message="Installing", command="make install")
+        commands = Library.appendCommand(self, message="Running configure", command="python2 ./configure CC=$CC CXX=$CXX %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
+        commands = commands + Library.appendCommand(self, message="Building", command="make MAKE_NP=%s all" % self.numberOfCores)
+        commands = commands + Library.appendCommand(self, message="Installing", command="make install")
 
         p = subprocess.Popen(["sh", "-c", commands], env=dict(os.environ, CC="mpicc", CXX="mpicxx", PETSC_ARCH=self.buildType, PETSC_DIR=self.sourceDirectory), stdout=self.logFile)
         p.wait()
 
-        Library.writeMessage(self, "Build directory: %s" % self.buildDirectory)
-        Library.writeMessage(self, "Compressed library: %s" % self.compressedLibrary)
-        Library.writeMessage(self, "Install directory: %s" % self.installDirectory)
-        Library.writeMessage(self, "Log file: %s" % self.logFile.name)
+        Library.displayEndMessage(self)
 
         Library.exportEnvironmentVariables(self, extra="")
-
-    def appendCommand(self, message, command):
-        return "echo -e \"\n%s\n\" | tee -a %s && echo -e \"\n`pwd`\$ %s\n\" && %s 2>>%s >> %s;" % (message, self.logFile.name, command, command, self.logFile.name, self.logFile.name)
