@@ -4,7 +4,8 @@ import subprocess
 from Library import Library
 
 class Boost(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "boost"
         Library.__init__(self, options, name, version)
 
         self.flags["Configure"] = "threading=multi"

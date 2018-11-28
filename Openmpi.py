@@ -1,7 +1,8 @@
 from Library import Library
 
 class Openmpi(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "openmpi"
         options["buildType"] = ""
         options["libraryType"] = ""
         Library.__init__(self, options, name, version)

@@ -52,6 +52,8 @@ class Library(object):
         self.displayEndMessage()
 
     def setup(self):
+        # self.setDefaultPathsAndNames()
+
         if not os.path.exists(self.buildDirectory):
             os.makedirs(self.buildDirectory)
 
@@ -65,6 +67,8 @@ class Library(object):
             os.makedirs(self.installDirectory)
 
         self.flags["Configure"] = "%s %s %s" % (self.flags["Configure"], self.flags[self.buildType], self.flags[self.libraryType])
+
+    # def setDefaultPathsAndNames(self):
 
     def extractLibrary(self):
         if not os.path.exists(self.sourceDirectory):

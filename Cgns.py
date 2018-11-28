@@ -4,7 +4,8 @@ import subprocess
 from Library import Library
 
 class Cgns(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "cgns"
         Library.__init__(self, options, name, version)
 
         self.flags["Configure"] = "--without-fortran --disable-cgnstools"

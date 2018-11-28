@@ -3,7 +3,8 @@ import os
 from Library import Library
 
 class Muparser(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "muparser"
         Library.__init__(self, options, name, version)
 
         self.flags["Configure"] = "-DBUILD_SAMPLES=OFF"

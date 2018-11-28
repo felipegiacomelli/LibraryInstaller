@@ -3,7 +3,8 @@ import os
 from Library import Library
 
 class Metis(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "metis"
         Library.__init__(self, options, name, version)
 
         self.flags["Configure"] = ""

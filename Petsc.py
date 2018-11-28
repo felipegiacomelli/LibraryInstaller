@@ -4,7 +4,8 @@ import subprocess
 from Library import Library
 
 class Petsc(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "petsc"
         Library.__init__(self, options, name, version)
 
         self.flags["Configure"] = "---with-mpi --download-f2cblaslapack=yes --with-fc=0"

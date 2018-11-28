@@ -6,8 +6,8 @@ from Hdf5 import Hdf5
 from Cgns import Cgns
 
 class Cgnstools(Library):
-    def __init__(self, options, name, version):
-        Library.__init__(self, options, name, version)
+    def __init__(self, options, version):
+        name = "cgnstools"
         self.options = options
 
     def install(self):

@@ -12,18 +12,23 @@ from Hdf5 import Hdf5
 from Metis import Metis
 from Cgnstools import Cgnstools
 
-def red(message):
-    return "%s%s%s%s" % ("\n", "\033[1;31m", message, "\033[0m")
+def purple(message):
+    return "%s%s%s" % ("\033[1;35m", message, "\033[0m")
+
+def yellow(message):
+    return "%s%s%s" % ("\033[1;33m", message, "\033[0m")
 
 def printOptions(options):
-    print(red("options"))
+    print(purple("\noptions"))
     for key,value in options.items():
-        if key is not "path":
-            print("\t%s : %s" % (key, value))
-        else:
+        if key is "path":
             print("\tpath:")
             for directory in options["path"].split(":"):
                 print("%s%s" % ("\t\t", directory))
+        elif key is "buildType" or key is "libraryType" or key is "environmentVariables":
+            print("\t%s : %s" % (key, yellow(value)))
+        else:
+            print("\t%s : %s" % (key, value))
 
 if __name__ == "__main__":
 
@@ -42,34 +47,39 @@ if __name__ == "__main__":
 
     printOptions(options)
 
+    openmpi = Openmpi(options, Settings.libraries["openmpi"]["version"])
     if Settings.libraries["openmpi"]["install"] == True:
-        openmpi = Openmpi(options, "openmpi", Settings.libraries["openmpi"]["version"])
         openmpi.install()
 
+    if openmpi.path in options["path"]:
+        pass
+    else:
+        options["path"] = "%s:%s" % (openmpi.path, options["path"])
+
     if Settings.libraries["boost"]["install"] == True:
-        boost = Boost(options, "boost", Settings.libraries["boost"]["version"])
+        boost = Boost(options, Settings.libraries["boost"]["version"])
         boost.install()
 
     if Settings.libraries["petsc"]["install"] == True:
-        petsc = Petsc(options, "petsc", Settings.libraries["petsc"]["version"])
+        petsc = Petsc(options, Settings.libraries["petsc"]["version"])
         petsc.install()
 
     if Settings.libraries["cgns"]["install"] == True:
-        cgns = Cgns(options, "cgns", Settings.libraries["cgns"]["version"])
+        cgns = Cgns(options, Settings.libraries["cgns"]["version"])
         cgns.install()
 
     if Settings.libraries["muparser"]["install"] == True:
-        muparser = Muparser(options, "muparser", Settings.libraries["muparser"]["version"])
+        muparser = Muparser(options, Settings.libraries["muparser"]["version"])
         muparser.install()
 
     if Settings.libraries["hdf5"]["install"] == True:
-        hdf5 = Hdf5(options, "hdf5", Settings.libraries["hdf5"]["version"])
+        hdf5 = Hdf5(options, Settings.libraries["hdf5"]["version"])
         hdf5.install()
 
     if Settings.libraries["metis"]["install"] == True:
-        metis = Metis(options, "metis", Settings.libraries["metis"]["version"])
+        metis = Metis(options, Settings.libraries["metis"]["version"])
         metis.install()
 
     if Settings.libraries["cgnstools"]["install"] == True:
-        cgnstools = Cgnstools(options, "cgnstools", Settings.libraries["cgnstools"]["version"])
+        cgnstools = Cgnstools(options, Settings.libraries["cgnstools"]["version"])
         cgnstools.install()

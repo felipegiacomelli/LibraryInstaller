@@ -3,7 +3,8 @@ import os
 from Library import Library
 
 class Hdf5(Library):
-    def __init__(self, options, name, version):
+    def __init__(self, options, version):
+        name = "hdf5"
         Library.__init__(self, options, name, version)
 
         self.flags["Configure"] = "--enable-cxx --disable-fortran --with-zlib"

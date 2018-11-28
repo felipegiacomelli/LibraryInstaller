@@ -14,7 +14,7 @@ numberOfCores = str(multiprocessing.cpu_count())
 
 libraries = {
     "openmpi"  : {"version" : "3.0.1" , "install" : False},
-    "boost"    : {"version" : "1.68.0", "install" : False},
+    "boost"    : {"version" : "1.68.0", "install" : True },
     "petsc"    : {"version" : "3.10.2", "install" : False},
     "cgns"     : {"version" : "3.3.1" , "install" : False},
     "muparser" : {"version" : "2.2.5" , "install" : False},
