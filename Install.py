@@ -13,23 +13,34 @@ from Metis import Metis
 from Cgnstools import Cgnstools
 
 def red(message):
-    return "\n%s%s%s" % ("\033[1;31m", message, "\033[0m")
+    return "%s%s%s%s" % ("\n", "\033[1;31m", message, "\033[0m")
+
+def printOptions(options):
+    print(red("options"))
+    for key,value in options.items():
+        if key is not "path":
+            print("\t%s : %s" % (key, value))
+        else:
+            print("\tpath:")
+            for directory in options["path"].split(":"):
+                print("%s%s" % ("\t\t", directory))
 
 if __name__ == "__main__":
 
     rootDirectory = os.path.dirname(os.path.abspath(__file__))
 
     options = {
+        "compressedFiles" : Settings.compressedFiles,
         "rootBuildDirectory" : Settings.rootBuildDirectory,
         "rootInstallDirectory" : Settings.rootInstallDirectory,
         "buildType" : Settings.buildType,
         "libraryType" : Settings.libraryType,
         "environmentVariables" : Settings.environmentVariables,
-        "numberOfCores" : Settings.numberOfCores
+        "numberOfCores" : Settings.numberOfCores,
+        "path": os.environ["PATH"]
     }
-    print(red("options"))
-    for keys,values in options.items():
-        print("\t%s : %s" % (keys, values))
+
+    printOptions(options)
 
     if Settings.libraries[0][0] == "openmpi" and Settings.libraries[0][1] == "3.0.1" and Settings.libraries[0][2]:
         openmpi = Openmpi(options, Settings.libraries[0][0], Settings.libraries[0][1])

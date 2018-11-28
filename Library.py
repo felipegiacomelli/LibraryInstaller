@@ -17,7 +17,7 @@ class Library(object):
         self.buildDirectory = "%s/%s/%s/%s" % (options["rootBuildDirectory"], self.library, self.buildType, self.libraryType)
         self.installDirectory = "%s/%s/%s/%s" % (options["rootInstallDirectory"], self.library, self.buildType, self.libraryType)
         self.logFile = io.StringIO()
-        self.compressedLibrary = "%s/%s.tar.gz" % (os.environ["LIBRARIES_FILES"], self.library)
+        self.compressedLibrary = "%s/%s.tar.gz" % (options["compressedFiles"], self.library)
         self.sourceDirectory = "%s/%s" % (self.buildDirectory, self.library)
         self.libraryDirectory = "%s/%s" % (options["rootInstallDirectory"], self.library)
         self.libraryEnvironmentVariable = "%s_DIR" % name.upper()

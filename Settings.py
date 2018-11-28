@@ -1,6 +1,7 @@
 import os
 import multiprocessing
 
+compressedFiles = os.environ["LIBRARIES_FILES"]
 rootBuildDirectory = os.environ["HOME"] + "/Delete"
 rootInstallDirectory = os.environ["HOME"] + "/Libraries"
 
@@ -19,5 +20,5 @@ libraries = [
     ["muparser" , "2.2.5" , False],
     ["hdf5"     , "1.8.19", False],
     ["metis"    , "5.1.0" , False],
-    ["cgnstools", "3.3.1" , True]
+    ["cgnstools", "3.3.1" , False]
 ]
