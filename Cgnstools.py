@@ -15,22 +15,24 @@ class Cgnstools(Library):
         hdf5.flags["Configure"] = "--disable-shared --enable-static --enable-cxx --disable-fortran --with-zlib --enable-static-exec --disable-debug --enable-production"
         hdf5.buildType = ""
         hdf5.libraryType = ""
+        hdf5.environmentVariables = False
         hdf5.buildDirectory = "%s/%s/%s" % (self.options["rootBuildDirectory"], self.library, hdf5.library)
-        hdf5.installDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, hdf5.library)
+        hdf5.installDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
         hdf5.sourceDirectory = "%s/%s" % (hdf5.buildDirectory, hdf5.library)
-        hdf5.libraryDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, hdf5.library)
+        hdf5.libraryDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
         hdf5.environmentVariable = False
-        hdf5Directory = hdf5.libraryDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, hdf5.library)
+        hdf5Directory = hdf5.libraryDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
         hdf5.install()
 
         cgns  = Cgns(self.options, "cgns", "3.3.1")
         cgns.flags["Configure"] = "--without-fortran --disable-shared --with-zlib --enable-cgnstools --disable-debug --with-hdf5=%s" % hdf5Directory
         cgns.buildType = ""
         cgns.libraryType = ""
+        cgns.environmentVariables = False
         cgns.buildDirectory = "%s/%s/%s" % (self.options["rootBuildDirectory"], self.library, cgns.library)
-        cgns.installDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, cgns.library)
+        cgns.installDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
         cgns.sourceDirectory = "%s/%s" % (cgns.buildDirectory, cgns.library)
-        cgns.libraryDirectory = "%s/%s/%s" % (self.options["rootInstallDirectory"], self.library, cgns.library)
+        cgns.libraryDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
         cgns.environmentVariable = False
         self.libraryDirectory = cgns.libraryDirectory
 
