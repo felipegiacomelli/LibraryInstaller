@@ -4,23 +4,37 @@ import subprocess
 
 class Library(object):
     def __init__(self, options, name, version):
+        self.compressedFiles = options["compressedFiles"]
+        self.rootBuildDirectory = options["rootBuildDirectory"]
+        self.rootInstallDirectory = options["rootInstallDirectory"]
         self.buildType = options["buildType"]
         self.libraryType = options["libraryType"]
         self.environmentVariables = options["environmentVariables"]
         self.numberOfCores = options["numberOfCores"]
+        self.name = name
+        self.version = version
 
         self.flags = {"Configure" : "", "Static" : "", "Shared" : "", "Debug" : "", "Release" : "", "" : ""}
 
         self.downloadLink = ""
 
-        self.library = "%s-%s" % (name, version)
-        self.buildDirectory = "%s/%s/%s/%s" % (options["rootBuildDirectory"], self.library, self.buildType, self.libraryType)
-        self.installDirectory = "%s/%s/%s/%s" % (options["rootInstallDirectory"], self.library, self.buildType, self.libraryType)
         self.logFile = io.StringIO()
-        self.compressedLibrary = "%s/%s.tar.gz" % (options["compressedFiles"], self.library)
+        self.library = ""
+        self.buildDirectory = ""
+        self.installDirectory = ""
+        self.compressedLibrary = ""
+        self.sourceDirectory = ""
+        self.libraryDirectory = ""
+        self.libraryEnvironmentVariable = ""
+
+    def setDefaultPathsAndNames(self):
+        self.library = "%s-%s" % (self.name, self.version)
+        self.buildDirectory = "%s/%s/%s/%s" % (self.rootBuildDirectory, self.library, self.buildType, self.libraryType)
+        self.installDirectory = "%s/%s/%s/%s" % (self.rootInstallDirectory, self.library, self.buildType, self.libraryType)
+        self.compressedLibrary = "%s/%s.tar.gz" % (self.compressedFiles, self.library)
         self.sourceDirectory = "%s/%s" % (self.buildDirectory, self.library)
-        self.libraryDirectory = "%s/%s" % (options["rootInstallDirectory"], self.library)
-        self.libraryEnvironmentVariable = "%s_DIR" % name.upper()
+        self.libraryDirectory = "%s/%s" % (self.rootInstallDirectory, self.library)
+        self.libraryEnvironmentVariable = "%s_DIR" % self.name.upper()
 
     def writeMessage(self, message):
         subprocess.check_call(["sh", "-c", "echo -e \"\n%s\n\" | tee -a %s" % (message, self.logFile.name)])
@@ -52,8 +66,6 @@ class Library(object):
         self.displayEndMessage()
 
     def setup(self):
-        # self.setDefaultPathsAndNames()
-
         if not os.path.exists(self.buildDirectory):
             os.makedirs(self.buildDirectory)
 
@@ -67,8 +79,6 @@ class Library(object):
             os.makedirs(self.installDirectory)
 
         self.flags["Configure"] = "%s %s %s" % (self.flags["Configure"], self.flags[self.buildType], self.flags[self.libraryType])
-
-    # def setDefaultPathsAndNames(self):
 
     def extractLibrary(self):
         if not os.path.exists(self.sourceDirectory):

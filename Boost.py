@@ -19,6 +19,8 @@ class Boost(Library):
         self.downloadLink = "https://downloads.sourceforge.net/project/boost/boost/1.68.0/boost_1_68_0.tar.gz"
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.setup(self)
 
         Library.extractLibrary(self)

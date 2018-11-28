@@ -16,6 +16,8 @@ class Metis(Library):
         self.downloadLink = "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz"
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.setup(self)
 
         Library.extractLibrary(self)

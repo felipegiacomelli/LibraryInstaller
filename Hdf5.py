@@ -16,6 +16,8 @@ class Hdf5(Library):
         self.downloadLink = "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.19/src/hdf5-1.8.19.tar.gz"
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.install(self)
 
         Library.exportEnvironmentVariables(self)

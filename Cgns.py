@@ -17,6 +17,8 @@ class Cgns(Library):
         self.downloadLink = "https://github.com/CGNS/CGNS/archive/v3.3.1.tar.gz"
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.setup(self)
 
         Library.extractLibrary(self)

@@ -17,6 +17,8 @@ class Petsc(Library):
         self.downloadLink = "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.10.2.tar.gz"
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.setup(self)
 
         Library.extractLibrary(self)

@@ -3,9 +3,9 @@ from Library import Library
 class Openmpi(Library):
     def __init__(self, options, version):
         name = "openmpi"
-        options["buildType"] = ""
-        options["libraryType"] = ""
         Library.__init__(self, options, name, version)
+        self.buildType = ""
+        self.libraryType = ""
 
         self.flags["Configure"] = "--enable-cxx-exceptions=yes --enable-binaries=yes --enable-static=yes"
         self.flags["Static"]    = ""
@@ -18,8 +18,12 @@ class Openmpi(Library):
         self.path ="%s/bin:%s/lib:%s/include" % (self.libraryDirectory, self.libraryDirectory, self.libraryDirectory)
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.install(self)
+
         Library.exportEnvironmentVariables(self, extra=self.libraryType)
+
         self.exportPath()
 
     def exportPath(self):

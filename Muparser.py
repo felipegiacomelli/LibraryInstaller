@@ -16,6 +16,8 @@ class Muparser(Library):
         self.downloadLink = "https://github.com/beltoforion/muparser/archive/v2.2.5.tar.gz"
 
     def install(self):
+        Library.setDefaultPathsAndNames(self)
+
         Library.setup(self)
 
         Library.extractLibrary(self)
