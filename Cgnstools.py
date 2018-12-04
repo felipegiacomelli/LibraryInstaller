@@ -7,35 +7,29 @@ from Cgns import Cgns
 
 class Cgnstools(Library):
     def __init__(self, options, version):
-        name = "cgnstools"
         self.options = options
+        name = "cgnstools"
+        Library.__init__(self, options, name, version)
+
+        self.buildType = ""
+        self.libraryType = ""
 
     def install(self):
-        hdf5  = Hdf5(self.options, "hdf5", "1.8.19")
-        hdf5.setDefaultPathsAndNames()
-        hdf5.flags["Configure"] = "--disable-shared --enable-static --enable-cxx --disable-fortran --with-zlib --enable-static-exec --disable-debug --enable-production"
-        hdf5.buildType = ""
-        hdf5.libraryType = ""
-        hdf5.environmentVariables = False
-        hdf5.buildDirectory = "%s/%s/%s" % (self.options["rootBuildDirectory"], self.library, hdf5.library)
-        hdf5.installDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
-        hdf5.sourceDirectory = "%s/%s" % (hdf5.buildDirectory, hdf5.library)
-        hdf5.libraryDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
-        hdf5.environmentVariable = False
-        hdf5Directory = hdf5.libraryDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
-        hdf5.install()
+        Library.setDefaultPathsAndNames(self)
+        Library.setup(self)
 
-        cgns  = Cgns(self.options, "cgns", "3.3.1")
-        cgns.setDefaultPathsAndNames()
-        cgns.flags["Configure"] = "--without-fortran --disable-shared --with-zlib --enable-cgnstools --disable-debug --with-hdf5=%s" % hdf5Directory
+        self.installHdf5()
+
+        cgns  = Cgns(self.options, "3.3.1")
+        cgns.flags["Configure"] = "--without-fortran --disable-shared --with-zlib --enable-cgnstools --disable-debug --with-hdf5=%s" % self.installDirectory
         cgns.buildType = ""
         cgns.libraryType = ""
         cgns.environmentVariables = False
-        cgns.buildDirectory = "%s/%s/%s" % (self.options["rootBuildDirectory"], self.library, cgns.library)
-        cgns.installDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
+        cgns.setDefaultPathsAndNames()
+        cgns.buildDirectory = "%s/%s" % (self.buildDirectory, cgns.library)
+        cgns.installDirectory = "%s" % (self.installDirectory)
         cgns.sourceDirectory = "%s/%s" % (cgns.buildDirectory, cgns.library)
-        cgns.libraryDirectory = "%s/%s" % (self.options["rootInstallDirectory"], self.library)
-        cgns.environmentVariable = False
+        cgns.libraryDirectory = "%s" % (self.installDirectory)
         self.libraryDirectory = cgns.libraryDirectory
 
         cgns.setup()
@@ -61,6 +55,20 @@ class Cgnstools(Library):
         cgns.displayEndMessage()
 
         self.exportPath()
+
+    def installHdf5(self):
+        hdf5  = Hdf5(self.options, "1.8.19")
+        hdf5.flags["Configure"] = "--disable-shared --enable-static --enable-cxx --disable-fortran --with-zlib --enable-static-exec --disable-debug --enable-production"
+        hdf5.buildType = ""
+        hdf5.libraryType = ""
+        hdf5.environmentVariables = False
+        hdf5.setDefaultPathsAndNames()
+        hdf5.buildDirectory = "%s/%s" % (self.buildDirectory, hdf5.library)
+        hdf5.installDirectory = "%s" % (self.installDirectory)
+        hdf5.sourceDirectory = "%s/%s" % (hdf5.buildDirectory, hdf5.library)
+        hdf5.libraryDirectory = "%s" % (self.installDirectory)
+        hdf5.install()
+        hdf5.displayEndMessage()
 
     def exportPath(self):
         if self.environmentVariables:

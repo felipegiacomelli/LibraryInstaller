@@ -2,6 +2,9 @@ import os
 import io
 import subprocess
 
+def cyan(message):
+    return "%s %s %s" % ("\033[1;36m", message, "\033[0m")
+
 class Library(object):
     def __init__(self, options, name, version):
         self.compressedFiles = options["compressedFiles"]
@@ -72,7 +75,7 @@ class Library(object):
         self.logFile = open("%s/%s.log" % (self.buildDirectory, self.library), "w")
         self.logFile.write("\n")
 
-        self.writeMessage("Building %s" % self.library)
+        self.writeMessage("Building%s" % cyan(self.library))
 
         self.writeMessage("Creating install directory")
         if not os.path.exists(self.installDirectory):
