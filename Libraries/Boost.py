@@ -8,11 +8,11 @@ class Boost(Library):
         name = "boost"
         Library.__init__(self, options, name, version)
 
-        self.flags["Configure"] = "threading=multi"
-        self.flags["Static"]    = "link=static runtime-link=static"
-        self.flags["Shared"]    = "--cxxflags=-fPIC link=shared runtime-link=shared"
-        self.flags["Debug"]     = ""
-        self.flags["Release"]   = ""
+        self.flags["configure"] = "threading=multi"
+        self.flags["static"]    = "link=static runtime-link=static"
+        self.flags["shared"]    = "--cxxflags=-fPIC link=shared runtime-link=shared"
+        self.flags["debug"]     = ""
+        self.flags["release"]   = ""
 
         self.pythonConfigureFlags="--with-python=/usr/bin/python2.7 -with-python-root=/usr --with-python-version=2.7"
 
@@ -39,7 +39,7 @@ class Boost(Library):
         projectConfig.close()
 
         self.writeMessage("Building and installing")
-        self.runCommand("./b2 variant=%s %s --prefix=%s -j %s install" % (self.buildType.lower(), self.flags["Configure"], self.installDirectory, self.numberOfCores))
+        self.runCommand("./b2 variant=%s %s --prefix=%s -j %s install" % (self.buildType.lower(), self.flags["configure"], self.installDirectory, self.numberOfCores))
 
         Library.displayEndMessage(self)
 

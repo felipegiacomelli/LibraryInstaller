@@ -8,11 +8,11 @@ class Petsc(Library):
         name = "petsc"
         Library.__init__(self, options, name, version)
 
-        self.flags["Configure"] = "---with-mpi --download-f2cblaslapack=yes --with-fc=0"
-        self.flags["Static"]    = "-with-shared-libraries=0"
-        self.flags["Shared"]    = "-with-shared-libraries=1"
-        self.flags["Debug"]     = "--with-debugging=1"
-        self.flags["Release"]   = "--with-debugging=0 COPTFLAGS=-O3 CXXOPTFLAGS=-O3"
+        self.flags["configure"] = "---with-mpi --download-f2cblaslapack=yes --with-fc=0"
+        self.flags["static"]    = "-with-shared-libraries=0"
+        self.flags["shared"]    = "-with-shared-libraries=1"
+        self.flags["debug"]     = "--with-debugging=1"
+        self.flags["release"]   = "--with-debugging=0 COPTFLAGS=-O3 CXXOPTFLAGS=-O3"
 
         self.downloadLink = "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.10.2.tar.gz"
 
@@ -26,7 +26,7 @@ class Petsc(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        commands = Library.appendCommand(self, message="Running configure", command="python2 ./configure CC=$CC CXX=$CXX %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
+        commands = Library.appendCommand(self, message="Running configure", command="python2 ./configure CC=$CC CXX=$CXX %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
         commands = commands + Library.appendCommand(self, message="Building", command="make MAKE_NP=%s all" % self.numberOfCores)
         commands = commands + Library.appendCommand(self, message="Testing", command="make test")
         commands = commands + Library.appendCommand(self, message="Installing", command="make install")

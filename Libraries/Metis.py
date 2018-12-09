@@ -2,18 +2,18 @@ import os
 
 from Library import Library
 
-class Muparser(Library):
+class Metis(Library):
     def __init__(self, options, version):
-        name = "muparser"
+        name = "metis"
         Library.__init__(self, options, name, version)
 
-        self.flags["Configure"] = "-DBUILD_SAMPLES=OFF"
-        self.flags["Static"]    = "-DBUILD_SHARED_LIBS=OFF"
-        self.flags["Shared"]    = "-DBUILD_SHARED_LIBS=ON"
-        self.flags["Debug"]     = "-DCMAKE_BUILD_TYPE=Debug"
-        self.flags["Release"]   = "-DCMAKE_BUILD_TYPE=Release"
+        self.flags["configure"] = ""
+        self.flags["static"]    = "debug=1 assert=1 assert2=1"
+        self.flags["shared"]    = ""
+        self.flags["debug"]     = ""
+        self.flags["release"]   = "shared=1"
 
-        self.downloadLink = "https://github.com/beltoforion/muparser/archive/v2.2.5.tar.gz"
+        self.downloadLink = "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz"
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
@@ -26,13 +26,10 @@ class Muparser(Library):
         os.chdir(self.sourceDirectory)
 
         Library.writeMessage(self, "Running configure")
-        Library.runCommand(self, "cmake %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["Configure"], self.installDirectory))
+        Library.runCommand(self, "make %s prefix=%s -j %s config" % (self.flags["configure"], self.installDirectory, self.numberOfCores))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, "make -j %s" % self.numberOfCores)
-
-        Library.writeMessage(self, "Testing")
-        Library.runCommand(self, "make test")
 
         Library.writeMessage(self, "Installing")
         Library.runCommand(self, "make install")

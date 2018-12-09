@@ -7,15 +7,13 @@ class Openmpi(Library):
         self.buildType = ""
         self.libraryType = ""
 
-        self.flags["Configure"] = "--enable-cxx-exceptions=yes --enable-binaries=yes --enable-static=yes"
-        self.flags["Static"]    = ""
-        self.flags["Shared"]    = ""
-        self.flags["Debug"]     = ""
-        self.flags["Release"]   = ""
+        self.flags["configure"] = "--enable-cxx-exceptions=yes --enable-binaries=yes --enable-static=yes"
+        self.flags["static"]    = ""
+        self.flags["shared"]    = ""
+        self.flags["debug"]     = ""
+        self.flags["release"]   = ""
 
         self.downloadLink = "https://download.open-mpi.org/release/open-mpi/v3.0/openmpi-3.0.1.tar.gz"
-
-        self.path ="%s/bin:%s/lib:%s/include" % (self.libraryDirectory, self.libraryDirectory, self.libraryDirectory)
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
@@ -27,5 +25,6 @@ class Openmpi(Library):
         self.exportPath()
 
     def exportPath(self):
+        self.path ="%s/bin:%s/lib:%s/include" % (self.libraryDirectory, self.libraryDirectory, self.libraryDirectory)
         if self.environmentVariables:
-            Library.exportName(self, name="PATH", value="%s:$PATH" % (self.path))
+            Library.exportName(self, name="PATH", value="%s:$PATH" % self.path)

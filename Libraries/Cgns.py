@@ -8,11 +8,11 @@ class Cgns(Library):
         name = "cgns"
         Library.__init__(self, options, name, version)
 
-        self.flags["Configure"] = "--without-fortran --disable-cgnstools"
-        self.flags["Static"]    = "--disable-shared"
-        self.flags["Shared"]    = "--enable-shared"
-        self.flags["Debug"]     = "--enable-debug"
-        self.flags["Release"]   = "--disable-debug"
+        self.flags["configure"] = "--without-fortran --disable-cgnstools"
+        self.flags["static"]    = "--disable-shared"
+        self.flags["shared"]    = "--enable-shared"
+        self.flags["debug"]     = "--enable-debug"
+        self.flags["release"]   = "--disable-debug"
 
         self.downloadLink = "https://github.com/CGNS/CGNS/archive/v3.3.1.tar.gz"
 
@@ -28,7 +28,7 @@ class Cgns(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir("%s/src" % self.sourceDirectory)
 
-        commands = Library.appendCommand(self, message="Running configure", command="./configure %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
+        commands = Library.appendCommand(self, message="Running configure", command="./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
         commands = commands + Library.appendCommand(self, message="Building", command="make -j %s" % self.numberOfCores)
         commands = commands + Library.appendCommand(self, message="Testing", command="make test")
         commands = commands + Library.appendCommand(self, message="Installing", command="make install")

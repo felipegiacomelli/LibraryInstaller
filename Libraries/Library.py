@@ -17,7 +17,7 @@ class Library(object):
         self.name = name
         self.version = version
 
-        self.flags = {"Configure" : "", "Static" : "", "Shared" : "", "Debug" : "", "Release" : "", "" : ""}
+        self.flags = {"configure" : "", "static" : "", "shared" : "", "debug" : "", "release" : "", "" : ""}
 
         self.downloadLink = ""
 
@@ -29,6 +29,7 @@ class Library(object):
         self.sourceDirectory = ""
         self.libraryDirectory = ""
         self.libraryEnvironmentVariable = ""
+        self.path = ""
 
     def setDefaultPathsAndNames(self):
         self.library = "%s-%s" % (self.name, self.version)
@@ -58,7 +59,7 @@ class Library(object):
         os.chdir(self.sourceDirectory)
 
         self.writeMessage("Running configure")
-        self.runCommand("./configure %s --prefix=%s" % (self.flags["Configure"], self.installDirectory))
+        self.runCommand("./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
 
         self.writeMessage("Building")
         self.runCommand("make -j %s" % self.numberOfCores)
@@ -81,7 +82,7 @@ class Library(object):
         if not os.path.exists(self.installDirectory):
             os.makedirs(self.installDirectory)
 
-        self.flags["Configure"] = "%s %s %s" % (self.flags["Configure"], self.flags[self.buildType], self.flags[self.libraryType])
+        self.flags["configure"] = "%s %s %s" % (self.flags["configure"], self.flags[self.buildType], self.flags[self.libraryType])
 
     def extractLibrary(self):
         if not os.path.exists(self.sourceDirectory):

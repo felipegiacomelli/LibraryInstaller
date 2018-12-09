@@ -7,11 +7,11 @@ class Hdf5(Library):
         name = "hdf5"
         Library.__init__(self, options, name, version)
 
-        self.flags["Configure"] = "--enable-cxx --disable-fortran --with-zlib"
-        self.flags["Static"]    = "--enable-debug=all"
-        self.flags["Shared"]    = "--disable-debug --enable-production"
-        self.flags["Debug"]     = "--disable-shared --enable-static --enable-static-exec"
-        self.flags["Release"]   = "--enable-shared  --disable-static"
+        self.flags["configure"] = "--enable-cxx --disable-fortran --with-zlib"
+        self.flags["static"]    = "--enable-debug=all"
+        self.flags["shared"]    = "--disable-debug --enable-production"
+        self.flags["debug"]     = "--disable-shared --enable-static --enable-static-exec"
+        self.flags["release"]   = "--enable-shared  --disable-static"
 
         self.downloadLink = "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.19/src/hdf5-1.8.19.tar.gz"
 

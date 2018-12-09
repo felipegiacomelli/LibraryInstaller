@@ -1,5 +1,8 @@
 import os
 import io
+import sys
+
+sys.path.append("./Libraries")
 
 import Settings
 
@@ -38,8 +41,8 @@ if __name__ == "__main__":
         "compressedFiles" : Settings.compressedFiles,
         "rootBuildDirectory" : Settings.rootBuildDirectory,
         "rootInstallDirectory" : Settings.rootInstallDirectory,
-        "buildType" : Settings.buildType,
-        "libraryType" : Settings.libraryType,
+        "buildType" : Settings.buildType.lower(),
+        "libraryType" : Settings.libraryType.lower(),
         "environmentVariables" : Settings.environmentVariables,
         "numberOfCores" : Settings.numberOfCores,
         "path": os.environ["PATH"]
