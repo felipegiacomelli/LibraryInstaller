@@ -16,6 +16,8 @@ class Petsc(Library):
 
         self.downloadLink = "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.10.2.tar.gz"
 
+        self.path = options["path"]
+
     def install(self):
         Library.setDefaultPathsAndNames(self)
 
@@ -31,7 +33,7 @@ class Petsc(Library):
         commands = commands + Library.appendCommand(self, message="Testing", command="make test")
         commands = commands + Library.appendCommand(self, message="Installing", command="make install")
 
-        p = subprocess.Popen(["sh", "-c", commands], env=dict(os.environ, CC="mpicc", CXX="mpicxx", PETSC_ARCH=self.buildType, PETSC_DIR=self.sourceDirectory), stdout=self.logFile)
+        p = subprocess.Popen(["sh", "-c", commands], env=dict(PATH=self.path, CC="mpicc", CXX="mpicxx", PETSC_ARCH=self.buildType, PETSC_DIR=self.sourceDirectory), stdout=self.logFile)
         p.wait()
 
         Library.displayEndMessage(self)
