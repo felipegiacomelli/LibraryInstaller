@@ -86,3 +86,11 @@ if __name__ == "__main__":
     if Settings.libraries["cgnstools"]["install"] == True:
         cgnstools = Cgnstools(options, Settings.libraries["cgnstools"]["version"])
         cgnstools.install()
+
+    # if Settings.libraries["triangle"]["install"] == True:
+    #     triangle = Triangle(options, Settings.libraries["triangle"]["version"])
+    #     triangle.install()
+
+    # if Settings.libraries["tetgen"]["install"] == True:
+    #     tetgen = Tetgen(options, Settings.libraries["tetgen"]["version"])
+    #     tetgen.install()
