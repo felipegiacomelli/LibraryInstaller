@@ -30,8 +30,8 @@ class Triangle(Library):
 
         self.extractLibrary()
 
-        self.writeMessage("Copying CMakeLists.txt to %s" % self.sourceDirectory)
-        self.runCommand("cp CMake/triangle.txt %s/CMakeLists.txt" % self.sourceDirectory)
+        Library.writeMessage("Copying CMakeLists.txt to %s" % self.sourceDirectory)
+        Library.runCommand("cp CMake/triangle.txt %s/CMakeLists.txt" % self.sourceDirectory)
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
@@ -57,9 +57,9 @@ class Triangle(Library):
     def extractLibrary(self):
         if not os.path.exists(self.sourceDirectory):
             if os.path.exists(self.compressedLibrary):
-                self.writeMessage("Extracting %s" % self.compressedLibrary)
-                self.runCommand("unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
+                Library.writeMessage("Extracting %s" % self.compressedLibrary)
+                Library.runCommand("unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
             else:
-                self.writeMessage("Downloading %s" % self.library)
-                self.runCommand("wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
-                self.runCommand("unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
+                Library.writeMessage("Downloading %s" % self.library)
+                Library.runCommand("wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
+                Library.runCommand("unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
