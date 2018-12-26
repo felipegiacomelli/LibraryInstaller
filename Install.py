@@ -16,6 +16,7 @@ from Metis import Metis
 from Cgnstools import Cgnstools
 from Triangle import Triangle
 from Tetgen import Tetgen
+from Mshtocgns import Mshtocgns
 
 def purple(message):
     return "%s%s%s" % ("\033[1;35m", message, "\033[0m")
@@ -96,3 +97,7 @@ if __name__ == "__main__":
     if Settings.libraries["tetgen"]["install"] == True:
         tetgen = Tetgen(options, Settings.libraries["tetgen"]["version"])
         tetgen.install()
+
+    if Settings.libraries["mshtocgns"]["install"] == True:
+        mshtocgns = Mshtocgns(options, Settings.libraries["mshtocgns"]["version"])
+        mshtocgns.install()

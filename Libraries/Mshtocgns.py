@@ -2,52 +2,39 @@ import os
 
 from Library import Library
 
-class Tetgen(Library):
+class Mshtocgns(Library):
     def __init__(self, options, version):
-        name = "tetgen"
+        name = "mshtocgns"
         Library.__init__(self, options, name, version)
-        self.buildType = ""
-        self.libraryType = ""
 
         self.flags["configure"] = ""
-        self.flags["static"]    = ""
-        self.flags["shared"]    = ""
-        self.flags["debug"]     = ""
-        self.flags["release"]   = ""
+        self.flags["static"]    = "-DBUILD_SHARED_LIBS=OFF"
+        self.flags["shared"]    = "-DBUILD_SHARED_LIBS=ON"
+        self.flags["debug"]     = "-DCMAKE_BUILD_TYPE=debug"
+        self.flags["release"]   = "-DCMAKE_BUILD_TYPE=release"
 
-        self.downloadLink = ""
+        self.downloadLink = "https://github.com/felipegiacomelli/MSHtoCGNS/archive/master.zip"
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
-        self.compressedLibrary = "%s/%s.zip" % (self.compressedFiles, self.library)
 
         Library.setup(self)
 
-        print("self.sourceDirectory: " + self.sourceDirectory)
-        print("self.buildDirectory: " + self.buildDirectory)
-        print("self.compressedLibrary: " + self.compressedLibrary)
-        print("self.installDirectory: " + self.installDirectory)
-
         self.extractLibrary()
         if not os.path.exists(self.sourceDirectory):
-            Library.runCommand(self, "mv %s/tetgen1.5.1 %s" % (self.buildDirectory, self.sourceDirectory))
-
-        self.writeMessage("Copying CMakeLists.txt to %s" % self.sourceDirectory)
-        self.runCommand("cp CMake/tetgen.txt %s/CMakeLists.txt" % self.sourceDirectory)
+            Library.runCommand(self, "mv %s/MSHtoCGNS-master %s" % (self.buildDirectory, self.sourceDirectory))
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        if not os.path.exists("./build"):
-            os.makedirs("./build")
-
-        os.chdir("./build")
-
         Library.writeMessage(self, "Running configure")
-        Library.runCommand(self, "cmake .. -DCMAKE_INSTALL_PREFIX=%s" % self.installDirectory)
+        Library.runCommand(self, "cmake %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, "make -j %s" % self.numberOfCores)
+
+        Library.writeMessage(self, "Testing")
+        Library.runCommand(self, "make test")
 
         Library.writeMessage(self, "Installing")
         Library.runCommand(self, "make install")
@@ -62,4 +49,6 @@ class Tetgen(Library):
                 Library.writeMessage(self, "Extracting %s" % self.compressedLibrary)
                 Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.buildDirectory))
             else:
-                raise Exception("No download link available")
+                Library.writeMessage(self, "Downloading %s" % self.library)
+                Library.runCommand(self, "wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
+                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.buildDirectory))

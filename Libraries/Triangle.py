@@ -57,9 +57,9 @@ class Triangle(Library):
     def extractLibrary(self):
         if not os.path.exists(self.sourceDirectory):
             if os.path.exists(self.compressedLibrary):
-                Library.writeMessage("Extracting %s" % self.compressedLibrary)
-                Library.runCommand("unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
+                Library.writeMessage(self, "Extracting %s" % self.compressedLibrary)
+                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
             else:
-                Library.writeMessage("Downloading %s" % self.library)
-                Library.runCommand("wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
-                Library.runCommand("unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
+                Library.writeMessage(self, "Downloading %s" % self.library)
+                Library.runCommand(self, "wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
+                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
