@@ -8,7 +8,7 @@ rootInstallDirectory = os.environ["HOME"] + "/Libraries"
 buildType = "Release"
 libraryType = "Shared"
 
-environmentVariables = True
+environmentVariables = False
 
 numberOfCores = str(multiprocessing.cpu_count())
 

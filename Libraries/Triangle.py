@@ -23,15 +23,10 @@ class Triangle(Library):
 
         Library.setup(self)
 
-        print("self.sourceDirectory: " + self.sourceDirectory)
-        print("self.buildDirectory: " + self.buildDirectory)
-        print("self.compressedLibrary: " + self.compressedLibrary)
-        print("self.installDirectory: " + self.installDirectory)
-
         self.extractLibrary()
 
-        Library.writeMessage("Copying CMakeLists.txt to %s" % self.sourceDirectory)
-        Library.runCommand("cp CMake/triangle.txt %s/CMakeLists.txt" % self.sourceDirectory)
+        Library.writeMessage(self, "Copying CMakeLists.txt to %s" % self.sourceDirectory)
+        Library.runCommand(self, "cp CMake/triangle.txt %s/CMakeLists.txt" % self.sourceDirectory)
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)

@@ -23,17 +23,12 @@ class Tetgen(Library):
 
         Library.setup(self)
 
-        print("self.sourceDirectory: " + self.sourceDirectory)
-        print("self.buildDirectory: " + self.buildDirectory)
-        print("self.compressedLibrary: " + self.compressedLibrary)
-        print("self.installDirectory: " + self.installDirectory)
-
         self.extractLibrary()
         if not os.path.exists(self.sourceDirectory):
             Library.runCommand(self, "mv %s/tetgen1.5.1 %s" % (self.buildDirectory, self.sourceDirectory))
 
-        self.writeMessage("Copying CMakeLists.txt to %s" % self.sourceDirectory)
-        self.runCommand("cp CMake/tetgen.txt %s/CMakeLists.txt" % self.sourceDirectory)
+        Library.writeMessage(self, "Copying CMakeLists.txt to %s" % self.sourceDirectory)
+        Library.runCommand(self, "cp CMake/tetgen.txt %s/CMakeLists.txt" % self.sourceDirectory)
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
