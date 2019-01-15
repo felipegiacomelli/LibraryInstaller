@@ -90,6 +90,10 @@ if __name__ == "__main__":
         cgnstools = Cgnstools(options, Settings.libraries["cgnstools"]["version"])
         cgnstools.install()
 
+    if Settings.libraries["mshtocgns"]["install"] == True:
+        mshtocgns = Mshtocgns(options, Settings.libraries["mshtocgns"]["version"])
+        mshtocgns.install()
+
     if Settings.libraries["triangle"]["install"] == True:
         triangle = Triangle(options, Settings.libraries["triangle"]["version"])
         triangle.install()
@@ -97,7 +101,3 @@ if __name__ == "__main__":
     if Settings.libraries["tetgen"]["install"] == True:
         tetgen = Tetgen(options, Settings.libraries["tetgen"]["version"])
         tetgen.install()
-
-    if Settings.libraries["mshtocgns"]["install"] == True:
-        mshtocgns = Mshtocgns(options, Settings.libraries["mshtocgns"]["version"])
-        mshtocgns.install()
