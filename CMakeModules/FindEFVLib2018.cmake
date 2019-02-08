@@ -11,12 +11,8 @@
 # EFVLIB2018_LIBRARIES          -
 
 include (${EFVLIB2018_DIR}/EFVLib2018Config.cmake)
-find_path (EFVLIB2018_INCLUDE_DIR Utils/Point.hpp ${EFVLIB2018_DIR}/include)
-if (BUILD_SHARED_LIBS)
-    find_library (EFVLIB2018_LIBRARY_DIR Utils.so ${EFVLIB2018_DIR}/libs)
-else ()
-    find_library (EFVLIB2018_LIBRARY_DIR Utils.a ${EFVLIB2018_DIR}/libs)
-endif()
+find_path (EFVLIB2018_INCLUDE_DIR Utils/Point.hpp HINTS ${EFVLIB2018_DIR}/include NO_DEFAULT_PATH)
+find_library (EFVLIB2018_LIBRARY_DIR NAMES Utils.so Utils.a HINTS ${EFVLIB2018_DIR}/libs NO_DEFAULT_PATH)
 
 set (EFVLIB2018_COMPONENTS BoostInterface BoundaryCondition Fields Grid Operators Utils PetscInterface Simulator VariableComputer)
 
@@ -29,13 +25,7 @@ if (EFVLIB2018_INCLUDE_DIR)
     endif ()
 endif ()
 
-if (EFVLIB2018_FOUND)
-    message (STATUS "Found EFVLib: ${EFVLIB2018_DIR}")
-else ()
-    message (STATUS "Could not find EFVLib")
-endif ()
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(EFVLib2018 REQUIRED_VARS EFVLIB2018_LIBRARY_DIR EFVLIB2018_LIBRARIES EFVLIB2018_INCLUDE_DIR VERSION_VAR ${EFVLIB2018_VERSION})
 
-# Debug this script - useful information
-# message ("\n-- EFVLIB2018_FOUND: ${EFVLIB2018_FOUND}")
-# message ("\n-- EFVLIB2018_INCLUDE_DIR: ${EFVLIB2018_INCLUDE_DIR}")
-# message ("\n-- EFVLIB2018_LIBRARIES: ${EFVLIB2018_LIBRARIES}")
+mark_as_advanced(EFVLIB2018_INCLUDE_DIR EFVLIB2018_LIBRARY_DIR)
