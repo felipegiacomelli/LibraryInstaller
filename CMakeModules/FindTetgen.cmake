@@ -16,15 +16,7 @@ if (TETGEN_INCLUDE_DIR)
     endif ()
 endif ()
 
-if (TETGEN_FOUND)
-    message (STATUS "Found tetgen: ${TETGEN_DIR}")
-else ()
-    message (STATUS "\n\nCould not find tetgen.\n\n")
-endif ()
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Tetgen REQUIRED_VARS TETGEN_LIBRARY_DIR TETGEN_LIBRARIES TETGEN_INCLUDE_DIR VERSION_VAR ${TETGEN_VERSION})
 
-# Debugging
-# message ("\n")
-# message (STATUS "TETGEN_FOUND: ${TETGEN_FOUND}")
-# message (STATUS "TETGEN_INCLUDE_DIR: ${TETGEN_INCLUDE_DIR}")
-# message (STATUS "TETGEN_LIBRARIES: ${TETGEN_LIBRARIES}")
-# message ("\n")
+mark_as_advanced(TETGEN_INCLUDE_DIR TETGEN_LIBRARY_DIR)

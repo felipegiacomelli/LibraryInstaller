@@ -16,15 +16,7 @@ if (TRIANGLE_INCLUDE_DIR)
     endif ()
 endif ()
 
-if (TRIANGLE_FOUND)
-    message (STATUS "Found triangle: ${TRIANGLE_DIR}")
-else ()
-    message (STATUS "\n\nCould not find triangle.\n\n")
-endif ()
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Triangle REQUIRED_VARS TRIANGLE_LIBRARY_DIR TRIANGLE_LIBRARIES TRIANGLE_INCLUDE_DIR VERSION_VAR ${TRIANGLE_VERSION})
 
-# Debugging
-# message ("\n")
-# message (STATUS "TRIANGLE_FOUND: ${TRIANGLE_FOUND}")
-# message (STATUS "TRIANGLE_INCLUDE_DIR: ${TRIANGLE_INCLUDE_DIR}")
-# message (STATUS "TRIANGLE_LIBRARIES: ${TRIANGLE_LIBRARIES}")
-# message ("\n")
+mark_as_advanced(TRIANGLE_INCLUDE_DIR TRIANGLE_LIBRARY_DIR)
