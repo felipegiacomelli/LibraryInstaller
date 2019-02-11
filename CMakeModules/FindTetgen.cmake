@@ -1,4 +1,4 @@
-# Find tetgen
+# Find WIAS' TetGen
 
 include (${TETGEN_DIR}/tetgen_config.cmake)
 
