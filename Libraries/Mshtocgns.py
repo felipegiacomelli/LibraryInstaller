@@ -13,16 +13,16 @@ class Mshtocgns(Library):
         self.flags["debug"]     = "-DCMAKE_BUILD_TYPE=debug"
         self.flags["release"]   = "-DCMAKE_BUILD_TYPE=release"
 
-        self.downloadLink = "https://github.com/felipegiacomelli/MSHtoCGNS/archive/master.zip"
+        self.downloadLink = "https://github.com/felipegiacomelli/MSHtoCGNS/archive/v0.13.0.tar.gz"
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
 
         Library.setup(self)
 
-        self.extractLibrary()
+        Library.extractLibrary(self)
         if not os.path.exists(self.sourceDirectory):
-            Library.runCommand(self, "mv %s/MSHtoCGNS-master %s" % (self.buildDirectory, self.sourceDirectory))
+            Library.runCommand(self, "mv %s/MSHtoCGNS-%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
@@ -42,13 +42,3 @@ class Mshtocgns(Library):
         Library.displayEndMessage(self)
 
         Library.exportEnvironmentVariables(self)
-
-    def extractLibrary(self):
-        if not os.path.exists(self.sourceDirectory):
-            if os.path.exists(self.compressedLibrary):
-                Library.writeMessage(self, "Extracting %s" % self.compressedLibrary)
-                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.buildDirectory))
-            else:
-                Library.writeMessage(self, "Downloading %s" % self.library)
-                Library.runCommand(self, "wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
-                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.buildDirectory))
