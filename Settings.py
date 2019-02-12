@@ -21,7 +21,7 @@ libraries = {
     "hdf5"     : {"version" : "1.8.19", "install" : False},
     "metis"    : {"version" : "5.1.0" , "install" : False},
     "cgnstools": {"version" : "3.3.1" , "install" : False},
-    "mshtocgns": {"version" : "0.13.0", "install" : True},
+    "mshtocgns": {"version" : "0.14.0", "install" : True},
     "triangle" : {"version" : "1.6.0" , "install" : False},
     "tetgen"   : {"version" : "1.5.1" , "install" : False}
 }
