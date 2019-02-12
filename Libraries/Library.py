@@ -16,6 +16,9 @@ class Library(object):
         self.numberOfCores = options["numberOfCores"]
         self.name = name
         self.version = version
+        self.versionMajor = version.split(".")[0]
+        self.versionMinor = version.split(".")[1]
+        self.versionPatch = version.split("%s.%s." % (major, minor))[1]
 
         self.flags = {"configure" : "", "static" : "", "shared" : "", "debug" : "", "release" : "", "" : ""}
 
