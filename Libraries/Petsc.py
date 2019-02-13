@@ -8,13 +8,13 @@ class Petsc(Library):
         name = "petsc"
         Library.__init__(self, options, name, version)
 
-        self.flags["configure"] = "---with-mpi --download-f2cblaslapack=yes --with-fc=0"
-        self.flags["static"]    = "-with-shared-libraries=0"
-        self.flags["shared"]    = "-with-shared-libraries=1"
+        self.flags["configure"] = "--with-mpi --download-f2cblaslapack=yes --with-fc=0"
+        self.flags["static"]    = "--with-shared-libraries=0"
+        self.flags["shared"]    = "--with-shared-libraries=1"
         self.flags["debug"]     = "--with-debugging=1"
         self.flags["release"]   = "--with-debugging=0 COPTFLAGS=-O3 CXXOPTFLAGS=-O3"
 
-        self.downloadLink = "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.10.2.tar.gz"
+        self.downloadLink = "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-%s.tar.gz" % self.version
 
         self.path = options["path"]
 
