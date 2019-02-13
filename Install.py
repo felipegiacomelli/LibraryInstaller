@@ -39,8 +39,6 @@ def printOptions(options):
 
 if __name__ == "__main__":
 
-    rootDirectory = os.path.dirname(os.path.abspath(__file__))
-
     options = {
         "systemPackages" : Settings.systemPackages,
         "compressedFiles" : Settings.compressedFiles,
@@ -56,7 +54,7 @@ if __name__ == "__main__":
     printOptions(options)
 
     if options["systemPackages"]:
-        Packages.installSystemPackages()
+        Packages.installSystemPackages(options["rootBuildDirectory"])
 
     openmpi = Openmpi(options, Settings.libraries["openmpi"]["version"])
     if Settings.libraries["openmpi"]["install"]:
