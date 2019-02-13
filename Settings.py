@@ -1,6 +1,8 @@
 import os
 import multiprocessing
 
+systemPackages = False
+
 compressedFiles = os.environ["LIBRARIES_FILES"]
 rootBuildDirectory = os.environ["HOME"] + "/Delete"
 rootInstallDirectory = os.environ["HOME"] + "/Libraries"

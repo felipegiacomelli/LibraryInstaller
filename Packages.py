@@ -10,7 +10,8 @@ packages.append("dos2unix")
 packages.append("tcl")
 packages.append("tk")
 
-subprocess.call(["sh", "-c", "sudo pacman -Syu --noconfirm"])
+def installSystemPackages():
+    # subprocess.call(["sh", "-c", "sudo pacman -Syu --noconfirm"])
 
-for package in packages:
-    subprocess.call(["sh", "-c", "sudo pacman -S --noconfirm --needed " + package])
+    for package in packages:
+        subprocess.call(["sh", "-c", "sudo pacman -S --noconfirm --needed " + package])

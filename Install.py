@@ -5,6 +5,7 @@ import sys
 sys.path.append("./Libraries")
 
 import Settings
+import Packages
 
 from Openmpi import Openmpi
 from Boost import Boost
@@ -31,7 +32,7 @@ def printOptions(options):
             print("\tpath:")
             for directory in options["path"].split(":"):
                 print("%s%s" % ("\t\t", directory))
-        elif key is "buildType" or key is "libraryType" or key is "environmentVariables":
+        elif key is "buildType" or key is "libraryType" or key is "environmentVariables" or key is "systemPackages":
             print("\t%s : %s" % (key, yellow(value)))
         else:
             print("\t%s : %s" % (key, value))
@@ -41,6 +42,7 @@ if __name__ == "__main__":
     rootDirectory = os.path.dirname(os.path.abspath(__file__))
 
     options = {
+        "systemPackages" : Settings.systemPackages,
         "compressedFiles" : Settings.compressedFiles,
         "rootBuildDirectory" : Settings.rootBuildDirectory,
         "rootInstallDirectory" : Settings.rootInstallDirectory,
@@ -53,8 +55,11 @@ if __name__ == "__main__":
 
     printOptions(options)
 
+    if options["systemPackages"]:
+        Packages.installSystemPackages()
+
     openmpi = Openmpi(options, Settings.libraries["openmpi"]["version"])
-    if Settings.libraries["openmpi"]["install"] == True:
+    if Settings.libraries["openmpi"]["install"]:
         openmpi.install()
 
     if openmpi.path in options["path"]:
@@ -62,42 +67,42 @@ if __name__ == "__main__":
     else:
         options["path"] = "%s:%s" % (openmpi.path, options["path"])
 
-    if Settings.libraries["boost"]["install"] == True:
+    if Settings.libraries["boost"]["install"]:
         boost = Boost(options, Settings.libraries["boost"]["version"])
         boost.install()
 
-    if Settings.libraries["petsc"]["install"] == True:
+    if Settings.libraries["petsc"]["install"]:
         petsc = Petsc(options, Settings.libraries["petsc"]["version"])
         petsc.install()
 
-    if Settings.libraries["cgns"]["install"] == True:
+    if Settings.libraries["cgns"]["install"]:
         cgns = Cgns(options, Settings.libraries["cgns"]["version"])
         cgns.install()
 
-    if Settings.libraries["muparser"]["install"] == True:
+    if Settings.libraries["muparser"]["install"]:
         muparser = Muparser(options, Settings.libraries["muparser"]["version"])
         muparser.install()
 
-    if Settings.libraries["hdf5"]["install"] == True:
+    if Settings.libraries["hdf5"]["install"]:
         hdf5 = Hdf5(options, Settings.libraries["hdf5"]["version"])
         hdf5.install()
 
-    if Settings.libraries["metis"]["install"] == True:
+    if Settings.libraries["metis"]["install"]:
         metis = Metis(options, Settings.libraries["metis"]["version"])
         metis.install()
 
-    if Settings.libraries["cgnstools"]["install"] == True:
+    if Settings.libraries["cgnstools"]["install"]:
         cgnstools = Cgnstools(options, Settings.libraries["cgnstools"]["version"])
         cgnstools.install()
 
-    if Settings.libraries["mshtocgns"]["install"] == True:
+    if Settings.libraries["mshtocgns"]["install"]:
         mshtocgns = Mshtocgns(options, Settings.libraries["mshtocgns"]["version"])
         mshtocgns.install()
 
-    if Settings.libraries["triangle"]["install"] == True:
+    if Settings.libraries["triangle"]["install"]:
         triangle = Triangle(options, Settings.libraries["triangle"]["version"])
         triangle.install()
 
-    if Settings.libraries["tetgen"]["install"] == True:
+    if Settings.libraries["tetgen"]["install"]:
         tetgen = Tetgen(options, Settings.libraries["tetgen"]["version"])
         tetgen.install()
