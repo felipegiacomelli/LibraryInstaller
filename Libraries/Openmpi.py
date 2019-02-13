@@ -13,7 +13,7 @@ class Openmpi(Library):
         self.flags["debug"]     = ""
         self.flags["release"]   = ""
 
-        self.downloadLink = "https://download.open-mpi.org/release/open-mpi/v3.0/openmpi-3.0.1.tar.gz"
+        self.downloadLink = "https://download.open-mpi.org/release/open-mpi/v%s.%s/openmpi-%s.tar.gz" % (self.versionMajor, self.versionMinor, self.version)
 
         libraryDirectory = "%s/%s-%s" % (self.rootInstallDirectory, self.name, self.version)
         self.path ="%s/bin:%s/lib:%s/include" % (libraryDirectory, libraryDirectory, libraryDirectory)
