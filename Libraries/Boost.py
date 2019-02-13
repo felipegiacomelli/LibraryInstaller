@@ -16,7 +16,7 @@ class Boost(Library):
 
         self.pythonConfigureFlags = "--with-python=/usr/bin/python2.7 -with-python-root=/usr --with-python-version=2.7"
 
-        self.downloadLink = "https://downloads.sourceforge.net/project/boost/boost/1.68.0/boost_1_68_0.tar.gz"
+        self.downloadLink = "https://downloads.sourceforge.net/project/boost/boost/%s/boost_%s_%s_%s.tar.gz" % (self.version, self.versionMajor, self.versionMinor, self.versionPatch)
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
@@ -25,7 +25,7 @@ class Boost(Library):
 
         Library.extractLibrary(self)
         if not os.path.exists(self.sourceDirectory):
-            Library.runCommand(self, "mv %s/boost_1_68_0 %s" % (self.buildDirectory, self.sourceDirectory))
+            Library.runCommand(self, "mv %s/boost_%s_%s_%s %s" % (self.buildDirectory, self.versionMajor, self.versionMinor, self.versionPatch, self.sourceDirectory))
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
