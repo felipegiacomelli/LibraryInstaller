@@ -13,7 +13,7 @@ class Muparser(Library):
         self.flags["debug"]     = "-DCMAKE_BUILD_TYPE=debug"
         self.flags["release"]   = "-DCMAKE_BUILD_TYPE=release"
 
-        self.downloadLink = "https://github.com/beltoforion/muparser/archive/v2.2.5.tar.gz"
+        self.downloadLink = "https://github.com/beltoforion/muparser/archive/v%s.tar.gz" % self.version
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
