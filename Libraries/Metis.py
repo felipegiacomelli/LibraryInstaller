@@ -13,7 +13,7 @@ class Metis(Library):
         self.flags["debug"]     = ""
         self.flags["release"]   = "shared=1"
 
-        self.downloadLink = "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz"
+        self.downloadLink = "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-%s.tar.gz" % self.version
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
