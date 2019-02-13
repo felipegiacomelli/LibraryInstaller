@@ -13,7 +13,7 @@ class Hdf5(Library):
         self.flags["debug"]     = "--disable-shared --enable-static --enable-static-exec"
         self.flags["release"]   = "--enable-shared  --disable-static"
 
-        self.downloadLink = "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.19/src/hdf5-1.8.19.tar.gz"
+        self.downloadLink = "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-%s.%s/hdf5-%s/src/hdf5-%s.tar.gz" % (self.versionMajor, self.versionMinor, self.version, self.version)
 
         Library.setDefaultPathsAndNames(self)
 
