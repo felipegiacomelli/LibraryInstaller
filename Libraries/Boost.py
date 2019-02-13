@@ -14,7 +14,7 @@ class Boost(Library):
         self.flags["debug"]     = ""
         self.flags["release"]   = ""
 
-        self.pythonConfigureFlags="--with-python=/usr/bin/python2.7 -with-python-root=/usr --with-python-version=2.7"
+        self.pythonConfigureFlags = "--with-python=/usr/bin/python2.7 -with-python-root=/usr --with-python-version=2.7"
 
         self.downloadLink = "https://downloads.sourceforge.net/project/boost/boost/1.68.0/boost_1_68_0.tar.gz"
 

@@ -14,7 +14,7 @@ class Cgns(Library):
         self.flags["debug"]     = "--enable-debug"
         self.flags["release"]   = "--disable-debug"
 
-        self.downloadLink = "https://github.com/CGNS/CGNS/archive/v3.3.1.tar.gz"
+        self.downloadLink = "https://github.com/CGNS/CGNS/archive/v%s.tar.gz" % self.version
 
         Library.setDefaultPathsAndNames(self)
 
@@ -23,7 +23,7 @@ class Cgns(Library):
 
         Library.extractLibrary(self)
         if not os.path.exists(self.sourceDirectory):
-            Library.runCommand(self, "mv %s/CGNS-3.3.1 %s" % (self.buildDirectory, self.sourceDirectory))
+            Library.runCommand(self, "mv %s/CGNS-%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir("%s/src" % self.sourceDirectory)
