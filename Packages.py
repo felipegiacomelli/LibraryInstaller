@@ -11,6 +11,9 @@ packages.append("tcl")
 packages.append("tk")
 
 def installSystemPackages(rootBuildDirectory):
+    if not os.path.exists(rootBuildDirectory):
+        os.makedirs(rootBuildDirectory)
+
     logFile = open("%s/packages.log" % rootBuildDirectory, "w")
     logFile.write("\n")
 
