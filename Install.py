@@ -81,21 +81,13 @@ if __name__ == "__main__":
         muparser = Muparser(options, Settings.libraries["muparser"]["version"])
         muparser.install()
 
-    if Settings.libraries["hdf5"]["install"]:
-        hdf5 = Hdf5(options, Settings.libraries["hdf5"]["version"])
-        hdf5.install()
-
-    if Settings.libraries["metis"]["install"]:
-        metis = Metis(options, Settings.libraries["metis"]["version"])
-        metis.install()
+    if Settings.libraries["mshtocgns"]["install"]:
+        mshtocgns = Mshtocgns(options, Settings.libraries["mshtocgns"]["version"])
+        mshtocgns.install()
 
     if Settings.libraries["cgnstools"]["install"]:
         cgnstools = Cgnstools(options, Settings.libraries["cgnstools"]["version"])
         cgnstools.install()
-
-    if Settings.libraries["mshtocgns"]["install"]:
-        mshtocgns = Mshtocgns(options, Settings.libraries["mshtocgns"]["version"])
-        mshtocgns.install()
 
     if Settings.libraries["triangle"]["install"]:
         triangle = Triangle(options, Settings.libraries["triangle"]["version"])
@@ -104,3 +96,11 @@ if __name__ == "__main__":
     if Settings.libraries["tetgen"]["install"]:
         tetgen = Tetgen(options, Settings.libraries["tetgen"]["version"])
         tetgen.install()
+
+    if Settings.libraries["hdf5"]["install"]:
+        hdf5 = Hdf5(options, Settings.libraries["hdf5"]["version"])
+        hdf5.install()
+
+    if Settings.libraries["metis"]["install"]:
+        metis = Metis(options, Settings.libraries["metis"]["version"])
+        metis.install()
