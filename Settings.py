@@ -20,7 +20,7 @@ libraries = {
     "petsc"    : {"version" : "3.10.2", "install" : True},
     "cgns"     : {"version" : "3.3.1" , "install" : True},
     "muparser" : {"version" : "2.2.6" , "install" : True},
-    "mshtocgns": {"version" : "0.14.0", "install" : True},
+    "mshtocgns": {"version" : "0.15.0", "install" : True},
     "cgnstools": {"version" : "3.3.1" , "install" : True},
     "triangle" : {"version" : "1.6.0" , "install" : False},
     "tetgen"   : {"version" : "1.5.1" , "install" : False},
