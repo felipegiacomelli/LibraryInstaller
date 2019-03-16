@@ -8,7 +8,7 @@ class Boost(Library):
         name = "boost"
         Library.__init__(self, options, name, version)
 
-        self.flags["configure"] = "threading=multi"
+        self.flags["configure"] = "threading=multi visibility=global"
         self.flags["static"]    = "link=static runtime-link=static"
         self.flags["shared"]    = "--cxxflags=-fPIC link=shared runtime-link=shared"
         self.flags["debug"]     = ""
