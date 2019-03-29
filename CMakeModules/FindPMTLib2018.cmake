@@ -1,0 +1,7 @@
+include (${PMTLIB2018_DIR}/PMTLib2018ConfigVersion.cmake)
+include (${PMTLIB2018_DIR}/PMTLib2018Config.cmake)
+include (${PMTLIB2018_DIR}/PMTLib2018Targets.cmake)
+
+include (FindPackageHandleStandardArgs)
+find_package_handle_standard_args (PMTLib2018 REQUIRED_VARS PMTLIB2018_LIBRARY_DIR PMTLIB2018_LIBRARIES PMTLIB2018_INCLUDE_DIR VERSION_VAR PACKAGE_VERSION)
+mark_as_advanced (PMTLIB2018_INCLUDE_DIR PMTLIB2018_LIBRARY_DIR)
