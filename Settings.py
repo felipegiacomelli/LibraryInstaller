@@ -3,9 +3,12 @@ import multiprocessing
 
 systemPackages = True
 
-compressedFiles = os.environ["LIBRARIES_FILES"]
 rootBuildDirectory = os.environ["HOME"] + "/Delete"
 rootInstallDirectory = os.environ["HOME"] + "/Libraries"
+
+compressedFiles = rootInstallDirectory + "/targz"
+if "LIBRARIES_FILES" in os.environ:
+    compressedFiles = os.environ["LIBRARIES_FILES"]
 
 buildType = "Release"
 libraryType = "Shared"

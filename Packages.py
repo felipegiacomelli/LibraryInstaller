@@ -1,6 +1,8 @@
 import os, subprocess
 
 packages = []
+packages.append("gcc")
+packages.append("make")
 packages.append("cmake")
 packages.append("bison")
 packages.append("flex")
