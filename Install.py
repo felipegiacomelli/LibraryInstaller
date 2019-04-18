@@ -56,6 +56,9 @@ if __name__ == "__main__":
     if options["systemPackages"]:
         Packages.installSystemPackages(options["rootBuildDirectory"])
 
+    if not os.path.exists(options["compressedFiles"]):
+        os.makedirs(options["compressedFiles"])
+
     openmpi = Openmpi(options, Settings.libraries["openmpi"]["version"])
     if Settings.libraries["openmpi"]["install"]:
         openmpi.install()
