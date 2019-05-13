@@ -31,7 +31,7 @@ class Mshtocgns(Library):
         if "BOOST_DIR" in os.environ and "CGNS_DIR" in os.environ:
             Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
         else:
-            command = "export BOOST_DIR=%s/%s;export CGNS_DIR=%s/%s;cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.rootInstallDirectory, "boost-1.68.0", self.rootInstallDirectory, "cgns-3.3.1", self.flags["configure"], self.installDirectory)
+            command = "export BOOST_DIR=%s/%s;export CGNS_DIR=%s/%s;cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.rootInstallDirectory, "boost-1.70.0", self.rootInstallDirectory, "cgns-3.3.1", self.flags["configure"], self.installDirectory)
             Library.displayCommand(self, command)
             subprocess.check_call(["sh", "-c", "%s 2>>%s >> %s" % (command, self.logFile.name, self.logFile.name)], stdout=self.logFile)
 
