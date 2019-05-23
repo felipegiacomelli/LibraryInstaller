@@ -11,6 +11,6 @@ Python scripts that install:
 - [PETSc](https://www.mcs.anl.gov/petsc/) 3.11.1
 - [triangle](http://www.cs.cmu.edu/~quake/triangle.html) 1.6.0
 - [tetgen](http://wias-berlin.de/software/index.jsp?id=TetGen&lang=1) 1.5.1
-- [MSHtoCGNS](https://github.com/felipegiacomelli/MSHtoCGNS) 0.15.0
+- [MSHtoCGNS](https://github.com/felipegiacomelli/MSHtoCGNS) 0.17.0
 
 The current linux distributions supported are **Arch/Manjaro Linux**
