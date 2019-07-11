@@ -25,7 +25,7 @@ class Muparser(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        Library.writeMessage(self, "Running configure")
+        Library.writeMessage(self, "Running cmake")
         Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
 
         Library.writeMessage(self, "Building")

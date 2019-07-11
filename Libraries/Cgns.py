@@ -1,5 +1,6 @@
 import os
-import subprocess
+import tempfile
+import shutil
 
 from Library import Library
 
@@ -8,13 +9,25 @@ class Cgns(Library):
         name = "cgns"
         Library.__init__(self, options, name, version)
 
-        self.flags["configure"] = "--without-fortran --disable-cgnstools"
-        self.flags["static"]    = "--disable-shared"
-        self.flags["shared"]    = "--enable-shared"
-        self.flags["debug"]     = "--enable-debug"
-        self.flags["release"]   = "--disable-debug"
+        self.flags["configure"] = "-DCGNS_ENABLE_FORTRAN=FALSE -DCGNS_ENABLE_PARALLEL=TRUE -DCGNS_ENABLE_HDF5=TRUE -DHDF5_NEED_ZLIB=TRUE -DHDF5_NEED_MPI=TRUE -DCGNS_BUILD_CGNSTOOLS=TRUE -DCGNS_ENABLE_TESTS=TRUE -DCGNS_BUILD_TESTING=TRUE"
+        self.flags["static"]    = "-DCGNS_BUILD_SHARED=FALSE"
+        self.flags["shared"]    = "-DCGNS_BUILD_SHARED=TRUE"
+        self.flags["debug"]     = "-DCMAKE_BUILD_TYPE=debug"
+        self.flags["release"]   = "-DCMAKE_BUILD_TYPE=release"
 
         self.downloadLink = "https://github.com/CGNS/CGNS/archive/v%s.tar.gz" % self.version
+
+        if "HDF5_DIR" not in os.environ:
+            environ = os.environ.copy()
+            environ["HDF5_DIR"] = "%s/%s" % (self.rootInstallDirectory, "hdf5-1.10.5")
+            os.environ.update(environ)
+
+        self.hdf5Path = "%s/%s/%s" % (os.environ["HDF5_DIR"], self.buildType, self.libraryType)
+
+        if self.buildType == "debug":
+            self.hdf5Libraries = "'%s/lib/libhdf5_debug.so;%s/lib/libhdf5_hl_debug.so;%s/lib/libhdf5_tools_debug.so'" % (self.hdf5Path, self.hdf5Path, self.hdf5Path)
+        else:
+            self.hdf5Libraries = "'%s/lib/libhdf5.so;%s/lib/libhdf5_hl.so;%s/lib/libhdf5_tools.so'" % (self.hdf5Path, self.hdf5Path, self.hdf5Path)
 
         Library.setDefaultPathsAndNames(self)
 
@@ -25,17 +38,48 @@ class Cgns(Library):
         if not os.path.exists(self.sourceDirectory):
             Library.runCommand(self, "mv %s/CGNS-%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))
 
+        self.setCMakeInstallation()
+
         Library.writeMessage(self, "Moving to source directory")
-        os.chdir("%s/src" % self.sourceDirectory)
+        os.chdir("%s" % self.sourceDirectory)
 
-        commands = Library.appendCommand(self, message="Running configure", command="./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
-        commands = commands + Library.appendCommand(self, message="Building", command="make -j %s" % self.numberOfCores)
-        commands = commands + Library.appendCommand(self, message="Testing", command="make test")
-        commands = commands + Library.appendCommand(self, message="Installing", command="make install")
+        self.fixCMakeFindHDF5()
 
-        p = subprocess.Popen(["sh", "-c", commands], env=dict(os.environ, LIBS="-ldl", CLIBS="-ldl", FLIBS="-ldl"), stdout=self.logFile)
-        p.wait()
+        if not os.path.exists("./build"):
+            os.makedirs("./build")
+        os.chdir("./build")
+
+        environ = os.environ.copy()
+        environ["LIBS"] = "\"-ldl\""
+        environ["CLIBS"] = "\"-ldl\""
+        os.environ.update(environ)
+
+        Library.writeMessage(self, "Running cmake")
+        Library.runCommand(self, "cmake .. %s -DCMAKE_INSTALL_PREFIX=%s -DCMAKE_PREFIX_PATH=%s -DHDF5_LIBRARIES=%s" % (self.flags["configure"], self.installDirectory, self.hdf5Path, self.hdf5Libraries))
+
+        Library.writeMessage(self, "Building")
+        Library.runCommand(self, "make -j %s" % self.numberOfCores)
+
+        Library.writeMessage(self, "Testing")
+        Library.runCommand(self, "make test")
+
+        Library.writeMessage(self, "Installing")
+        Library.runCommand(self, "make install")
 
         Library.displayEndMessage(self)
 
         Library.exportEnvironmentVariables(self)
+
+    def setCMakeInstallation(self):
+        Library.runCommand(self, "cp  %s/CMakeIncludes/ProjectConfig.cmake.in %s" % (self.rootDirectory, self.sourceDirectory))
+        Library.runCommand(self, "cat %s/CMake/CgnsInstall.txt >> %s/CMakeLists.txt" % (self.rootDirectory, self.sourceDirectory))
+
+    def fixCMakeFindHDF5(self):
+        file = "CMakeLists.txt"
+        fh, path = tempfile.mkstemp()
+        with os.fdopen(fh, "w") as new:
+            with open(file) as old:
+                for line in old:
+                    new.write(line.replace("set (FIND_HDF_COMPONENTS C shared)", "set (FIND_HDF_COMPONENTS C)"))
+        os.remove(file)
+        shutil.move(path, file)

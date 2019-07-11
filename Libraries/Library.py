@@ -8,6 +8,7 @@ def cyan(message):
 class Library(object):
     def __init__(self, options, name, version):
         self.compressedFiles = options["compressedFiles"]
+        self.rootDirectory = options["rootDirectory"]
         self.rootBuildDirectory = options["rootBuildDirectory"]
         self.rootInstallDirectory = options["rootInstallDirectory"]
         self.buildType = options["buildType"]
@@ -44,14 +45,17 @@ class Library(object):
         self.libraryEnvironmentVariable = "%s_DIR" % self.name.upper()
 
     def writeMessage(self, message):
-        subprocess.check_call(["sh", "-c", "echo -e \"\n%s\n\" | tee -a %s" % (message, self.logFile.name)])
+        self.logFile.write("\n%s\n" % message)
+        self.logFile.flush()
+        print("\n%s\n" % message)
 
     def runCommand(self, command):
         self.displayCommand(command)
-        subprocess.check_call(["sh", "-c", "%s 2>>%s >> %s" % (command, self.logFile.name, self.logFile.name)], stdout=self.logFile)
+        subprocess.check_call(["sh", "-c", "%s" % command], stdout=self.logFile, stderr=self.logFile)
 
     def displayCommand(self, command):
-        subprocess.check_call(["sh", "-c", "echo -e \"\n`pwd`\$ %s\n\"" % command], stdout=self.logFile)
+        self.logFile.write("\n%s$ %s\n" % (os.getcwd(), command))
+        self.logFile.flush()
 
     def install(self):
         self.setup()
@@ -111,13 +115,6 @@ class Library(object):
         bashrc = open("%s/.bashrc" % os.environ["HOME"], "a")
         bashrc.write("export %s=%s\n" % (name, value))
         bashrc.close()
-
-    def appendCommand(self, message, command):
-        final = "echo -e \"\n%s\n\" | tee -a %s && " % (message, self.logFile.name)
-
-        final = final + "echo -e \"\n`pwd`\$ %s\n\" && " % command
-
-        return final + "%s 2>>%s >> %s;" % (command, self.logFile.name, self.logFile.name)
 
     def __del__(self):
         self.logFile.close()

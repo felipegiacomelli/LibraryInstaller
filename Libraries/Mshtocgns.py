@@ -1,4 +1,4 @@
-import os, subprocess
+import os
 
 from Library import Library
 
@@ -27,13 +27,18 @@ class Mshtocgns(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        Library.writeMessage(self, "Running configure")
-        if "BOOST_DIR" in os.environ and "CGNS_DIR" in os.environ:
-            Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
-        else:
-            command = "export BOOST_DIR=%s/%s;export CGNS_DIR=%s/%s;cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.rootInstallDirectory, "boost-1.70.0", self.rootInstallDirectory, "cgns-3.3.1", self.flags["configure"], self.installDirectory)
-            Library.displayCommand(self, command)
-            subprocess.check_call(["sh", "-c", "%s 2>>%s >> %s" % (command, self.logFile.name, self.logFile.name)], stdout=self.logFile)
+        if "BOOST_DIR" not in os.environ:
+            environ = os.environ.copy()
+            environ["BOOST_DIR"] = "%s/%s" % (self.rootInstallDirectory, "boost-1.70.0")
+            os.environ.update(environ)
+
+        if "CGNS_DIR" not in os.environ:
+            environ = os.environ.copy()
+            environ["CGNS_DIR"] = "%s/%s" % (self.rootInstallDirectory, "cgns-3.4.0")
+            os.environ.update(environ)
+
+        Library.writeMessage(self, "Running cmake")
+        Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, "make -j %s" % self.numberOfCores)

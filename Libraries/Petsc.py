@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 from Library import Library
 
@@ -16,8 +15,6 @@ class Petsc(Library):
 
         self.downloadLink = "http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-%s.tar.gz" % self.version
 
-        self.path = options["path"]
-
     def install(self):
         Library.setDefaultPathsAndNames(self)
 
@@ -28,13 +25,22 @@ class Petsc(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        commands = Library.appendCommand(self, message="Running configure", command="python2 ./configure CC=$CC CXX=$CXX %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
-        commands = commands + Library.appendCommand(self, message="Building", command="make MAKE_NP=%s all" % self.numberOfCores)
-        commands = commands + Library.appendCommand(self, message="Testing", command="make test")
-        commands = commands + Library.appendCommand(self, message="Installing", command="make install")
+        environ = os.environ.copy()
+        environ["PETSC_ARCH"] = self.buildType
+        environ["PETSC_DIR"] = self.sourceDirectory
+        os.environ.update(environ)
 
-        p = subprocess.Popen(["sh", "-c", commands], env=dict(PATH=self.path, CC="mpicc", CXX="mpicxx", PETSC_ARCH=self.buildType, PETSC_DIR=self.sourceDirectory), stdout=self.logFile)
-        p.wait()
+        Library.writeMessage(self, "Running configure")
+        Library.runCommand(self, command="python2 ./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
+
+        Library.writeMessage(self, "Building")
+        Library.runCommand(self, command="make MAKE_NP=%s all" % self.numberOfCores)
+
+        Library.writeMessage(self, "Testing")
+        Library.runCommand(self, command="make test")
+
+        Library.writeMessage(self, "Installing")
+        Library.runCommand(self, command="make install")
 
         Library.displayEndMessage(self)
 

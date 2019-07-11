@@ -36,7 +36,7 @@ class Triangle(Library):
 
         os.chdir("./build")
 
-        Library.writeMessage(self, "Running configure")
+        Library.writeMessage(self, "Running cmake")
         Library.runCommand(self, "cmake .. -DCMAKE_INSTALL_PREFIX=%s" % self.installDirectory)
 
         Library.writeMessage(self, "Building")
