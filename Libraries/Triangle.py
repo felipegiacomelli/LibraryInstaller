@@ -15,18 +15,16 @@ class Triangle(Library):
         self.flags["debug"]     = ""
         self.flags["release"]   = ""
 
-        self.downloadLink = "http://www.netlib.org/voronoi/triangle.zip"
+        self.downloadLink = "https://github.com/felipegiacomelli/triangle/archive/v%s.tar.gz" % self.version
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
-        self.compressedLibrary = "%s/%s.zip" % (self.compressedFiles, self.library)
 
         Library.setup(self)
 
-        self.extractLibrary()
-
-        Library.writeMessage(self, "Copying CMakeLists.txt to %s" % self.sourceDirectory)
-        Library.runCommand(self, "cp CMake/triangle.txt %s/CMakeLists.txt" % self.sourceDirectory)
+        Library.extractLibrary(self)
+        if not os.path.exists(self.sourceDirectory):
+            Library.runCommand(self, "mv %s/Triangle_%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
@@ -48,13 +46,3 @@ class Triangle(Library):
         Library.displayEndMessage(self)
 
         Library.exportEnvironmentVariables(self)
-
-    def extractLibrary(self):
-        if not os.path.exists(self.sourceDirectory):
-            if os.path.exists(self.compressedLibrary):
-                Library.writeMessage(self, "Extracting %s" % self.compressedLibrary)
-                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))
-            else:
-                Library.writeMessage(self, "Downloading %s" % self.library)
-                Library.runCommand(self, "wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
-                Library.runCommand(self, "unzip -x %s -d %s" % (self.compressedLibrary, self.sourceDirectory))

@@ -1,14 +1,15 @@
 # defined: CMAKE_BUILD_TYPE, BUILD_SHARED_LIBS
 # defines: BUILD_TYPE, LIBRARY_TYPE
 
-if (NOT CMAKE_BUILD_TYPE)
-    set (CMAKE_BUILD_TYPE "Release" CACHE STRING "Default build type")
-endif ()
-string (TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Default build type")
+endif()
+string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+set(CMAKE_DEBUG_POSTFIX "_d")
 
-if (BUILD_SHARED_LIBS)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" CACHE STRING "Necessary for shared libraries")
-    set (LIBRARY_TYPE "shared")
-else ()
-    set (LIBRARY_TYPE "static")
-endif ()
+if(BUILD_SHARED_LIBS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" CACHE STRING "Necessary for shared libraries")
+    set(LIBRARY_TYPE "shared")
+else()
+    set(LIBRARY_TYPE "static")
+endif()

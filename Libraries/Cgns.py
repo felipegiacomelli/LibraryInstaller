@@ -1,6 +1,4 @@
-import os
-import tempfile
-import shutil
+import os, tempfile, shutil
 
 from Library import Library
 
@@ -16,11 +14,6 @@ class Cgns(Library):
         self.flags["release"]   = "-DCMAKE_BUILD_TYPE=release"
 
         self.downloadLink = "https://github.com/CGNS/CGNS/archive/v%s.tar.gz" % self.version
-
-        if "HDF5_DIR" not in os.environ:
-            environ = os.environ.copy()
-            environ["HDF5_DIR"] = "%s/%s" % (self.rootInstallDirectory, "hdf5-1.10.5")
-            os.environ.update(environ)
 
         self.hdf5Path = "%s/%s/%s" % (os.environ["HDF5_DIR"], self.buildType, self.libraryType)
 
@@ -43,7 +36,7 @@ class Cgns(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir("%s" % self.sourceDirectory)
 
-        self.fixCMakeFindHDF5()
+        self.fixFindHDF5()
 
         if not os.path.exists("./build"):
             os.makedirs("./build")
@@ -74,8 +67,8 @@ class Cgns(Library):
         Library.runCommand(self, "cp  %s/CMakeIncludes/ProjectConfig.cmake.in %s" % (self.rootDirectory, self.sourceDirectory))
         Library.runCommand(self, "cat %s/CMake/CgnsInstall.txt >> %s/CMakeLists.txt" % (self.rootDirectory, self.sourceDirectory))
 
-    def fixCMakeFindHDF5(self):
-        file = "CMakeLists.txt"
+    def fixFindHDF5(self):
+        file = "./CMakeLists.txt"
         fh, path = tempfile.mkstemp()
         with os.fdopen(fh, "w") as new:
             with open(file) as old:

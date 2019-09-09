@@ -3,6 +3,7 @@ import subprocess
 
 packages = []
 packages.append("gcc")
+packages.append("gcc-fortran")
 packages.append("make")
 packages.append("cmake")
 packages.append("bison")

@@ -1,6 +1,4 @@
-import os
-import io
-import subprocess
+import os, io, subprocess
 
 def cyan(message):
     return "%s %s %s" % ("\033[1;36m", message, "\033[0m")
@@ -110,6 +108,10 @@ class Library(object):
     def exportEnvironmentVariables(self, extra=""):
         if self.environmentVariables:
             self.exportName(self.libraryEnvironmentVariable, "%s/%s" % (self.libraryDirectory, extra))
+
+            environ = os.environ.copy()
+            environ[self.libraryEnvironmentVariable] = "%s/%s" % (self.libraryDirectory, extra)
+            os.environ.update(environ)
 
     def exportName(self, name, value):
         bashrc = open("%s/.bashrc" % os.environ["HOME"], "a")

@@ -2,18 +2,18 @@ import os
 
 from Library import Library
 
-class Metis(Library):
+class DivideEtImpera(Library):
     def __init__(self, options, version):
-        name = "metis"
+        name = "dei"
         Library.__init__(self, options, name, version)
 
-        self.flags["configure"] = "-DMETIS_USE_LONGINDEX=FALSE -DMETIS_USE_DOUBLEPRECISION=FALSE -DGKLIB_PATH=../GKlib"
-        self.flags["static"]    = "-DSHARED=0"
-        self.flags["shared"]    = "-DSHARED=1"
+        self.flags["configure"] = ""
+        self.flags["static"]    = "-DBUILD_SHARED_LIBS=OFF"
+        self.flags["shared"]    = "-DBUILD_SHARED_LIBS=ON"
         self.flags["debug"]     = "-DCMAKE_BUILD_TYPE=debug"
         self.flags["release"]   = "-DCMAKE_BUILD_TYPE=release"
 
-        self.downloadLink = "https://github.com/felipegiacomelli/metis/archive/v%s.tar.gz" % self.version
+        self.downloadLink = "https://github.com/felipegiacomelli/DivideEtImpera/archive/v%s.tar.gz" % self.version
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
@@ -22,20 +22,19 @@ class Metis(Library):
 
         Library.extractLibrary(self)
         if not os.path.exists(self.sourceDirectory):
-            Library.runCommand(self, "mv %s/Metis_%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))
+            Library.runCommand(self, "mv %s/DivideEtImpera-%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
-        if not os.path.exists("./build"):
-            os.makedirs("./build")
-        os.chdir("./build")
-
-        Library.writeMessage(self, "Running configure")
-        Library.runCommand(self, "cmake .. %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
+        Library.writeMessage(self, "Running cmake")
+        Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, "make -j %s" % self.numberOfCores)
+
+        Library.writeMessage(self, "Testing")
+        Library.runCommand(self, "make test")
 
         Library.writeMessage(self, "Installing")
         Library.runCommand(self, "make install")

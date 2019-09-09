@@ -3,19 +3,19 @@
 #
 # notes:
 #     on add_library macro:
-#         set_property (GLOBAL APPEND PROPERTY GlobalTargetList ${_target})
-#         install (TARGETS ${PROJECT_NAME} EXPORT ${TargetsConfig} DESTINATION ${LIB_INSTALL_DIR})
+#         set_property(GLOBAL APPEND PROPERTY GlobalTargetList ${_target})
+#         install(TARGETS ${PROJECT_NAME} EXPORT ${TargetsConfig} DESTINATION ${LIB_INSTALL_DIR})
 
-set (TemplateConfig $ENV{CMAKE_INCLUDES}/ProjectConfig.cmake.in)
-set (ProjectConfig ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake)
-set (VersionConfig ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake)
-string (TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPER)
-get_property (PROJECT_LIBRARIES GLOBAL PROPERTY GlobalTargetList)
+set(TemplateConfig $ENV{CMAKE_INCLUDES}/ProjectConfig.cmake.in)
+set(ProjectConfig ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake)
+set(VersionConfig ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake)
+string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPER)
+get_property(PROJECT_LIBRARIES GLOBAL PROPERTY GlobalTargetList)
 
-include (CMakePackageConfigHelpers)
-configure_package_config_file (${TemplateConfig} ${ProjectConfig} INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX} PATH_VARS PROJECT_NAME_UPPER PROJECT_NAME INCLUDE_INSTALL_DIR LIB_INSTALL_DIR PROJECT_LIBRARIES)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(${TemplateConfig} ${ProjectConfig} INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX} PATH_VARS PROJECT_NAME_UPPER PROJECT_NAME INCLUDE_INSTALL_DIR LIB_INSTALL_DIR PROJECT_LIBRARIES)
 
-write_basic_package_version_file (${VersionConfig} VERSION ${VERSION} COMPATIBILITY ExactVersion)
+write_basic_package_version_file(${VersionConfig} VERSION ${VERSION} COMPATIBILITY ExactVersion)
 
-install (FILES ${ProjectConfig} ${VersionConfig} DESTINATION ${CMAKE_INSTALL_PREFIX})
-install (EXPORT ${TargetsConfig} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES ${ProjectConfig} ${VersionConfig} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(EXPORT ${TargetsConfig} DESTINATION ${CMAKE_INSTALL_PREFIX})

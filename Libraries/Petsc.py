@@ -7,7 +7,9 @@ class Petsc(Library):
         name = "petsc"
         Library.__init__(self, options, name, version)
 
-        self.flags["configure"] = "--with-mpi --download-f2cblaslapack=yes --with-fc=0"
+        self.metisPath = "%s/%s/%s" % (os.environ["METIS_DIR"], self.buildType, self.libraryType)
+
+        self.flags["configure"] = "--with-mpi --download-f2cblaslapack=yes --with-fc=0 --with-metis-dir=%s --with-cxx-dialect=C++11 --download-superlu_dist --download-parmetis --download-ptscotch" % self.metisPath
         self.flags["static"]    = "--with-shared-libraries=0"
         self.flags["shared"]    = "--with-shared-libraries=1"
         self.flags["debug"]     = "--with-debugging=1"
@@ -31,7 +33,7 @@ class Petsc(Library):
         os.environ.update(environ)
 
         Library.writeMessage(self, "Running configure")
-        Library.runCommand(self, command="python2 ./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
+        Library.runCommand(self, command="python3 ./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, command="make MAKE_NP=%s all" % self.numberOfCores)

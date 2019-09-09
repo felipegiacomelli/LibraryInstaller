@@ -2,7 +2,7 @@ import os
 
 from Library import Library
 
-class Mshtocgns(Library):
+class MshToCgns(Library):
     def __init__(self, options, version):
         name = "mshtocgns"
         Library.__init__(self, options, name, version)
@@ -26,16 +26,6 @@ class Mshtocgns(Library):
 
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
-
-        if "BOOST_DIR" not in os.environ:
-            environ = os.environ.copy()
-            environ["BOOST_DIR"] = "%s/%s" % (self.rootInstallDirectory, "boost-1.70.0")
-            os.environ.update(environ)
-
-        if "CGNS_DIR" not in os.environ:
-            environ = os.environ.copy()
-            environ["CGNS_DIR"] = "%s/%s" % (self.rootInstallDirectory, "cgns-3.4.0")
-            os.environ.update(environ)
 
         Library.writeMessage(self, "Running cmake")
         Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
