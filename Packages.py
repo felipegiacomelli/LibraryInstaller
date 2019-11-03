@@ -13,6 +13,7 @@ packages.append("wget")
 packages.append("dos2unix")
 packages.append("tcl")
 packages.append("tk")
+packages.append("python2")
 
 def installSystemPackages(rootBuildDirectory):
     if not os.path.exists(rootBuildDirectory):
