@@ -9,7 +9,7 @@ class Petsc(Library):
 
         self.metisPath = "%s/%s/%s" % (os.environ["METIS_DIR"], self.buildType, self.libraryType)
 
-        self.flags["configure"] = "--with-mpi --download-f2cblaslapack=yes --with-fc=0 --with-metis-dir=%s --with-cxx-dialect=C++11 --download-superlu_dist --download-parmetis --download-ptscotch" % self.metisPath
+        self.flags["configure"] = "--with-mpi --download-f2cblaslapack=yes --with-fc=0 --with-metis-dir=%s --with-cxx-dialect=C++11 --download-superlu_dist --download-parmetis --download-ptscotch --download-hypre" % self.metisPath
         self.flags["static"]    = "--with-shared-libraries=0"
         self.flags["shared"]    = "--with-shared-libraries=1"
         self.flags["debug"]     = "--with-debugging=1"

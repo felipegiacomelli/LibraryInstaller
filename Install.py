@@ -131,7 +131,7 @@ def yellow(message):
 def printOptions(options):
     print(purple("\noptions"))
     for key, value in options.items():
-        if key is "buildType" or key is "libraryType" or key is "environmentVariables" or key is "systemPackages":
+        if key == "buildType" or key == "libraryType" or key == "environmentVariables" or key == "systemPackages":
             print("\t%s : %s" % (key, yellow(value)))
         else:
             print("\t%s : %s" % (key, value))
