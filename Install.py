@@ -36,21 +36,33 @@ def main():
     if not os.path.exists(options["compressedFiles"]):
         os.makedirs(options["compressedFiles"])
 
+    checkArgv()
+
     checkDependencies()
 
     installLibraries(options)
 
+def checkArgv():
+    if len(sys.argv) >= 2:
+        for library in Settings.libraries.keys():
+            Settings.libraries[library]["install"] = False
+
+        libraries = iter(sys.argv)
+        next(libraries)
+        for library in libraries:
+            Settings.libraries[library]["install"] = True
+
 def checkDependencies():
-    checkDependency("openmpi", "OPENMPI_DIR", "4.0.1")
+    checkDependency("openmpi", "OPENMPI_DIR", "4.0.2")
 
     if Settings.libraries["petsc"]["install"]:
         checkDependency("metis", "METIS_DIR", "5.1.0")
 
     if Settings.libraries["dei"]["install"]:
-        checkDependency("mshtocgns", "MSHTOCGNS_DIR", "2.0.0")
+        checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
 
     if Settings.libraries["mshtocgns"]["install"]:
-        checkDependency("boost", "BOOST_DIR", "1.70.0")
+        checkDependency("boost", "BOOST_DIR", "1.72.0")
         checkDependency("cgns", "CGNS_DIR", "3.4.0")
 
     if Settings.libraries["cgns"]["install"]:

@@ -6,14 +6,13 @@ packages.append("gcc")
 packages.append("gcc-fortran")
 packages.append("make")
 packages.append("cmake")
+packages.append("python-requests")
 packages.append("bison")
 packages.append("flex")
 packages.append("diffutils")
-packages.append("wget")
 packages.append("dos2unix")
 packages.append("tcl")
 packages.append("tk")
-packages.append("python2")
 
 def installSystemPackages(rootBuildDirectory):
     if not os.path.exists(rootBuildDirectory):

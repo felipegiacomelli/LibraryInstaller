@@ -1,4 +1,5 @@
-import os, io, subprocess
+import os, io, subprocess, tarfile
+import urllib.request
 
 def cyan(message):
     return "%s %s %s" % ("\033[1;36m", message, "\033[0m")
@@ -91,13 +92,14 @@ class Library(object):
 
     def extractLibrary(self):
         if not os.path.exists(self.sourceDirectory):
-            if os.path.exists(self.compressedLibrary):
-                self.writeMessage("Extracting %s" % self.compressedLibrary)
-                self.runCommand("tar -x -z -f %s -C %s" % (self.compressedLibrary, self.buildDirectory))
-            else:
+            if not os.path.exists(self.compressedLibrary):
                 self.writeMessage("Downloading %s" % self.library)
-                self.runCommand("wget %s -O %s" % (self.downloadLink, self.compressedLibrary))
-                self.runCommand("tar -x -z -f %s -C %s" % (self.compressedLibrary, self.buildDirectory))
+                urllib.request.urlretrieve(self.downloadLink, self.compressedLibrary)
+
+            self.writeMessage("Extracting %s" % self.compressedLibrary)
+            tar = tarfile.open(self.compressedLibrary)
+            tar.extractall(path=self.buildDirectory)
+            tar.close()
 
     def displayEndMessage(self):
         self.writeMessage("Build directory: %s" % self.buildDirectory)
