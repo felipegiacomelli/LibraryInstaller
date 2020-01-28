@@ -25,6 +25,8 @@ class Muparser(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir(self.sourceDirectory)
 
+        self.setPrecision()
+
         Library.writeMessage(self, "Running cmake")
         Library.runCommand(self, "cmake . %s -DCMAKE_INSTALL_PREFIX=%s" % (self.flags["configure"], self.installDirectory))
 
@@ -40,3 +42,13 @@ class Muparser(Library):
         Library.displayEndMessage(self)
 
         Library.exportEnvironmentVariables(self)
+
+    def setPrecision(self):
+        file = "./include/muParserDef.h"
+        fh, path = tempfile.mkstemp()
+        with os.fdopen(fh, "w") as new:
+            with open(file) as old:
+                for line in old:
+                    new.write(line.replace("#define MUP_BASETYPE double", "#define MUP_BASETYPE long double"))
+        os.remove(file)
+        shutil.move(path, file)

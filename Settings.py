@@ -15,18 +15,18 @@ environmentVariables = True
 numberOfCores = str(multiprocessing.cpu_count())
 
 libraries = {
-    "openmpi"  : {"version" : "4.0.2" , "install" : True},
+    "openmpi"  : {"version" : "4.0.2" , "install" : False},
 
-    "boost"    : {"version" : "1.72.0", "install" : True},
+    "boost"    : {"version" : "1.72.0", "install" : False},
 
-    "metis"    : {"version" : "5.1.0" , "install" : True},
-    "petsc"    : {"version" : "3.12.2", "install" : True},
+    "metis"    : {"version" : "5.1.0" , "install" : False},
+    "petsc"    : {"version" : "3.12.2", "install" : False},
 
-    "hdf5"     : {"version" : "1.10.5", "install" : True},
-    "cgns"     : {"version" : "3.4.0" , "install" : True},
-    "mshtocgns": {"version" : "3.0.0" , "install" : True},
+    "hdf5"     : {"version" : "1.10.5", "install" : False},
+    "cgns"     : {"version" : "3.4.0" , "install" : False},
+    "mshtocgns": {"version" : "3.0.0" , "install" : False},
 
-    "dei"      : {"version" : "1.0.0" , "install" : True},
+    "dei"      : {"version" : "1.0.0" , "install" : False},
 
     "muparser" : {"version" : "2.2.6" , "install" : True},
 
