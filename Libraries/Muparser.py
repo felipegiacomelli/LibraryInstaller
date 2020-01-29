@@ -1,4 +1,4 @@
-import os
+import os, tempfile, shutil
 
 from Library import Library
 
@@ -50,5 +50,14 @@ class Muparser(Library):
             with open(file) as old:
                 for line in old:
                     new.write(line.replace("#define MUP_BASETYPE double", "#define MUP_BASETYPE long double"))
+        os.remove(file)
+        shutil.move(path, file)
+
+        file = "./include/muParserDLL.h"
+        fh, path = tempfile.mkstemp()
+        with os.fdopen(fh, "w") as new:
+            with open(file) as old:
+                for line in old:
+                    new.write(line.replace("typedef double muFloat_t;           // floating point type", "typedef long double muFloat_t;           // floating point type"))
         os.remove(file)
         shutil.move(path, file)

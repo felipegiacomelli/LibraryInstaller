@@ -10,7 +10,7 @@ compressedFiles = rootInstallDirectory + "/targz"
 releaseBuild = True
 sharedLibrary = True
 
-environmentVariables = True
+environmentVariables = False
 
 numberOfCores = str(multiprocessing.cpu_count())
 
