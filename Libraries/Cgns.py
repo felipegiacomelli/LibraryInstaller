@@ -61,7 +61,11 @@ class Cgns(Library):
 
         Library.displayEndMessage(self)
 
-        Library.exportEnvironmentVariables(self)
+        Library.exportEnvironmentVariable(self)
+
+        if self.buildType == "release":
+            self.path = "%s/bin:%s/lib:%s/include" % (self.installDirectory, self.installDirectory, self.installDirectory)
+            Library.exportPath(self)
 
     def setCMakeInstallation(self):
         Library.runCommand(self, "cp  %s/CMakeIncludes/ProjectConfig.cmake.in %s" % (self.rootDirectory, self.sourceDirectory))

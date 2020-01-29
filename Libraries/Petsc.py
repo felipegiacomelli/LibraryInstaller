@@ -46,4 +46,4 @@ class Petsc(Library):
 
         Library.displayEndMessage(self)
 
-        Library.exportEnvironmentVariables(self)
+        Library.exportEnvironmentVariable(self)

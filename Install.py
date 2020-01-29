@@ -24,7 +24,6 @@ def main():
         "rootInstallDirectory" : Settings.rootInstallDirectory,
         "buildType" : "release" if Settings.releaseBuild else "debug",
         "libraryType" : "shared" if Settings.sharedLibrary else "static",
-        "environmentVariables" : Settings.environmentVariables,
         "numberOfCores" : Settings.numberOfCores,
     }
 
@@ -143,7 +142,7 @@ def yellow(message):
 def printOptions(options):
     print(purple("\noptions"))
     for key, value in options.items():
-        if key == "buildType" or key == "libraryType" or key == "environmentVariables" or key == "systemPackages":
+        if key == "buildType" or key == "libraryType" or key == "systemPackages":
             print("\t%s : %s" % (key, yellow(value)))
         else:
             print("\t%s : %s" % (key, value))

@@ -45,4 +45,4 @@ class Triangle(Library):
 
         Library.displayEndMessage(self)
 
-        Library.exportEnvironmentVariables(self)
+        Library.exportEnvironmentVariable(self)

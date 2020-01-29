@@ -45,4 +45,4 @@ class Hdf5(Library):
 
         Library.displayEndMessage(self)
 
-        Library.exportEnvironmentVariables(self)
+        Library.exportEnvironmentVariable(self)

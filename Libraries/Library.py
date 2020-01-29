@@ -12,7 +12,6 @@ class Library(object):
         self.rootInstallDirectory = options["rootInstallDirectory"]
         self.buildType = options["buildType"]
         self.libraryType = options["libraryType"]
-        self.environmentVariables = options["environmentVariables"]
         self.numberOfCores = options["numberOfCores"]
         self.name = name
         self.version = version
@@ -107,18 +106,33 @@ class Library(object):
         self.writeMessage("Install directory: %s" % self.installDirectory)
         self.writeMessage("Log file: %s" % self.logFile.name)
 
-    def exportEnvironmentVariables(self, extra=""):
-        if self.environmentVariables:
-            self.exportName(self.libraryEnvironmentVariable, "%s/%s" % (self.libraryDirectory, extra))
+    def exportEnvironmentVariable(self, extra=""):
+        environment = "export %s=%s/%s" % (self.libraryEnvironmentVariable, self.libraryDirectory, extra)
+        environment = environment.replace(os.environ["HOME"], "$HOME")
 
+        if not self.lineExists(environment):
+            self.exportName(self.libraryEnvironmentVariable, "%s/%s" % (self.libraryDirectory, extra))
             environ = os.environ.copy()
             environ[self.libraryEnvironmentVariable] = "%s/%s" % (self.libraryDirectory, extra)
             os.environ.update(environ)
 
+    def lineExists(self, target):
+        with open("%s/.bashrc" % os.environ["HOME"], "r") as bashrc:
+            for line in bashrc:
+                if target == line.rstrip():
+                    return True
+        return False
+
     def exportName(self, name, value):
         bashrc = open("%s/.bashrc" % os.environ["HOME"], "a")
-        bashrc.write("export %s=%s\n" % (name, value))
+        bashrc.write("export %s=%s\n" % (name, value.replace(os.environ["HOME"], "$HOME")))
         bashrc.close()
+
+    def exportPath(self, extra=""):
+        path = ("export %s=%s:%s" % ("PATH", self.path.replace(os.environ["HOME"], "$HOME"), "$PATH"))
+
+        if not self.lineExists(path):
+            self.exportName(name="PATH", value="%s:$PATH" % self.path)
 
     def __del__(self):
         self.logFile.close()

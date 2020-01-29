@@ -41,4 +41,8 @@ class MshToCgns(Library):
 
         Library.displayEndMessage(self)
 
-        Library.exportEnvironmentVariables(self)
+        Library.exportEnvironmentVariable(self)
+
+        if self.buildType == "release":
+            self.path = "%s/bin:%s/lib:%s/include" % (self.installDirectory, self.installDirectory, self.installDirectory)
+            Library.exportPath(self)

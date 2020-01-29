@@ -16,17 +16,13 @@ class Openmpi(Library):
         self.downloadLink = "https://download.open-mpi.org/release/open-mpi/v%s.%s/openmpi-%s.tar.gz" % (self.versionMajor, self.versionMinor, self.version)
 
         libraryDirectory = "%s/%s-%s" % (self.rootInstallDirectory, self.name, self.version)
-        self.path ="%s/bin:%s/lib:%s/include" % (libraryDirectory, libraryDirectory, libraryDirectory)
+        self.path = "%s/bin:%s/lib:%s/include" % (libraryDirectory, libraryDirectory, libraryDirectory)
 
     def install(self):
         Library.setDefaultPathsAndNames(self)
 
         Library.install(self)
 
-        Library.exportEnvironmentVariables(self, extra=self.libraryType)
+        Library.exportEnvironmentVariable(self)
 
-        self.exportPath()
-
-    def exportPath(self):
-        if self.environmentVariables:
-            Library.exportName(self, name="PATH", value="%s:$PATH" % self.path)
+        Library.exportPath(self)
