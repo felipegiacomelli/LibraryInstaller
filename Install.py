@@ -61,8 +61,11 @@ def checkDependencies():
         checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
 
     if Settings.libraries["mshtocgns"]["install"]:
-        checkDependency("boost", "BOOST_DIR", "1.72.0")
         checkDependency("cgns", "CGNS_DIR", "3.4.0")
+        if Settings.libraries["mshtocgns"]["version"] == "2.0.0":
+            checkDependency("boost", "BOOST_DIR", "1.70.0")
+        else:
+            checkDependency("boost", "BOOST_DIR", "1.72.0")
 
     if Settings.libraries["cgns"]["install"]:
         checkDependency("hdf5", "HDF5_DIR", "1.10.5")
@@ -71,11 +74,14 @@ def checkDependency(name, environmentVariable, requiredVersion):
     if not Settings.libraries[name]["install"]:
         if environmentVariable not in os.environ:
             Settings.libraries[name]["install"] = True
+            Settings.libraries[name]["version"] = requiredVersion
         elif not os.path.exists(os.environ[environmentVariable]):
             Settings.libraries[name]["install"] = True
+            Settings.libraries[name]["version"] = requiredVersion
         else:
             if re.findall(r"\d*\.\d*\.\d*", os.environ[environmentVariable])[0] != requiredVersion:
                 Settings.libraries[name]["install"] = True
+                Settings.libraries[name]["version"] = requiredVersion
 
 def installLibraries(options):
     openmpi = Openmpi(options, Settings.libraries["openmpi"]["version"])
