@@ -30,11 +30,12 @@ def installSystemPackages(rootBuildDirectory):
         else:
             isPackageInstalled.append(True)
 
+    print("%s%s%s" % ("\033[1;35m", "packages", "\033[0m"))
     if False in isPackageInstalled:
-        print("\n\tMust install packages")
+        print("\tMust install packages")
         subprocess.call(["sh", "-c", "sudo pacman -Syu --noconfirm"])
     else:
-        print("\n\tAll packages are already installed")
+        print("\tAll packages are already installed")
         logFile.close()
         return
 
