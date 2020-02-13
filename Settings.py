@@ -24,7 +24,7 @@ libraries = {
     "cgns"     : {"version" : "3.4.0" , "install" : True},
     "mshtocgns": {"version" : "3.0.0" , "install" : True},
 
-    "dei"      : {"version" : "1.0.0" , "install" : True},
+    "dei"      : {"version" : "1.0.1" , "install" : True},
 
     "muparser" : {"version" : "2.2.6" , "install" : True},
 
