@@ -15,3 +15,13 @@ Python scripts that install:
 - [tetgen](http://wias-berlin.de/software/index.jsp?id=TetGen&lang=1)
 
 The current linux distributions supported are **Arch/Manjaro Linux**
+
+---
+
+Set the following environment variables, if you would like to use my modules.
+
+```shell
+
+export CMAKE_MODULES=PATH_TO_LIBRARYINSTALLER/LibraryInstaller/CMakeModules
+export CMAKE_INCLUDES=PATH_TO_LIBRARYINSTALLER/LibraryInstaller/CMakeIncludes
+```
