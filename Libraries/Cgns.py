@@ -22,6 +22,8 @@ class Cgns(Library):
         else:
             self.hdf5Libraries = "'%s/lib/libhdf5.so;%s/lib/libhdf5_hl.so;%s/lib/libhdf5_tools.so'" % (self.hdf5Path, self.hdf5Path, self.hdf5Path)
 
+        self.isVersionUnder4 = True if self.version == "3.3.0" or self.version == "3.3.1" or self.version == "3.4.0" else False
+
         Library.setDefaultPathsAndNames(self)
 
     def install(self):
@@ -36,7 +38,8 @@ class Cgns(Library):
         Library.writeMessage(self, "Moving to source directory")
         os.chdir("%s" % self.sourceDirectory)
 
-        self.fixFindHDF5()
+        if self.isVersionUnder4:
+            self.fixFindHDF5()
 
         if not os.path.exists("./build"):
             os.makedirs("./build")
@@ -48,7 +51,10 @@ class Cgns(Library):
         os.environ.update(environ)
 
         Library.writeMessage(self, "Running cmake")
-        Library.runCommand(self, "cmake .. %s -DCMAKE_INSTALL_PREFIX=%s -DCMAKE_PREFIX_PATH=%s -DHDF5_LIBRARIES=%s" % (self.flags["configure"], self.installDirectory, self.hdf5Path, self.hdf5Libraries))
+        if self.isVersionUnder4:
+            Library.runCommand(self, "cmake .. %s -DCMAKE_INSTALL_PREFIX=%s -DCMAKE_PREFIX_PATH=%s -DHDF5_LIBRARIES=%s -DINSTALL_VERSION=%s" % (self.flags["configure"], self.installDirectory, self.hdf5Path, self.hdf5Libraries, self.version))
+        else:
+            Library.runCommand(self, "cmake .. %s -DCMAKE_INSTALL_PREFIX=%s -DHDF5_ROOT=%s -DINSTALL_VERSION=%s" % (self.flags["configure"], self.installDirectory, self.hdf5Path, self.version))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, "make -j %s" % self.numberOfCores)
