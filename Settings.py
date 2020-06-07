@@ -22,9 +22,9 @@ libraries = {
 
     "hdf5"     : {"version" : "1.10.5", "install" : True},
     "cgns"     : {"version" : "3.4.0" , "install" : True},
-    "mshtocgns": {"version" : "3.0.0" , "install" : True},
+    "mshtocgns": {"version" : "5.0.0" , "install" : True},
 
-    "dei"      : {"version" : "1.0.1" , "install" : True},
+    "dei"      : {"version" : "2.0.0" , "install" : True},
 
     "muparser" : {"version" : "2.2.6" , "install" : True},
 
