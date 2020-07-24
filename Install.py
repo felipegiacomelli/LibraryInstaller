@@ -58,7 +58,10 @@ def checkDependencies():
         checkDependency("metis", "METIS_DIR", "5.1.0")
 
     if Settings.libraries["dei"]["install"]:
-        checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
+        if Settings.libraries["dei"]["version"] == "3.0.0":
+            checkDependency("mshtocgns", "MSHTOCGNS_DIR", "6.0.0")
+        else:
+            checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
 
     if Settings.libraries["mshtocgns"]["install"]:
         checkDependency("cgns", "CGNS_DIR", "3.4.0")
