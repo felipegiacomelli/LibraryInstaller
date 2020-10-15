@@ -60,6 +60,8 @@ def checkDependencies():
     if Settings.libraries["dei"]["install"]:
         if Settings.libraries["dei"]["version"] == "3.0.0":
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "6.0.0")
+        if Settings.libraries["dei"]["version"] == "0.0.0" or Settings.libraries["dei"]["version"] == "0.0.1":
+            checkDependency("mshtocgns", "MSHTOCGNS_DIR", "2.0.0")
         else:
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
 
