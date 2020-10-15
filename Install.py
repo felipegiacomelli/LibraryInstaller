@@ -58,18 +58,24 @@ def checkDependencies():
         checkDependency("metis", "METIS_DIR", "5.1.0")
 
     if Settings.libraries["dei"]["install"]:
-        if Settings.libraries["dei"]["version"] == "3.0.0":
+        if Settings.libraries["dei"]["version"] == "4.0.0":
+            checkDependency("mshtocgns", "MSHTOCGNS_DIR", "7.0.0")
+        elif Settings.libraries["dei"]["version"] == "3.0.0":
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "6.0.0")
-        if Settings.libraries["dei"]["version"] == "0.0.0" or Settings.libraries["dei"]["version"] == "0.0.1":
+        elif Settings.libraries["dei"]["version"] == "0.0.0" or Settings.libraries["dei"]["version"] == "0.0.1":
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "2.0.0")
         else:
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
 
     if Settings.libraries["mshtocgns"]["install"]:
-        checkDependency("cgns", "CGNS_DIR", "3.4.0")
-        if Settings.libraries["mshtocgns"]["version"] == "2.0.0":
+        if Settings.libraries["mshtocgns"]["version"] == "7.0.0":
+            checkDependency("cgns", "CGNS_DIR", "4.1.2")
+            checkDependency("boost", "BOOST_DIR", "1.74.0")
+        elif Settings.libraries["mshtocgns"]["version"] == "2.0.0":
+            checkDependency("cgns", "CGNS_DIR", "3.4.0")
             checkDependency("boost", "BOOST_DIR", "1.70.0")
         else:
+            checkDependency("cgns", "CGNS_DIR", "3.4.0")
             checkDependency("boost", "BOOST_DIR", "1.72.0")
 
     if Settings.libraries["cgns"]["install"]:

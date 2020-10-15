@@ -13,18 +13,18 @@ sharedLibrary = True
 numberOfCores = str(multiprocessing.cpu_count())
 
 libraries = {
-    "openmpi"  : {"version" : "4.0.2" , "install" : True},
+    "openmpi"  : {"version" : "4.0.5" , "install" : True},
 
-    "boost"    : {"version" : "1.72.0", "install" : True},
+    "boost"    : {"version" : "1.74.0", "install" : True},
 
     "metis"    : {"version" : "5.1.0" , "install" : True},
-    "petsc"    : {"version" : "3.12.4", "install" : True},
+    "petsc"    : {"version" : "3.14.0", "install" : True},
 
     "hdf5"     : {"version" : "1.10.5", "install" : True},
-    "cgns"     : {"version" : "3.4.0" , "install" : True},
-    "mshtocgns": {"version" : "6.0.0" , "install" : True},
+    "cgns"     : {"version" : "4.1.2" , "install" : True},
+    "mshtocgns": {"version" : "7.0.0" , "install" : True},
 
-    "dei"      : {"version" : "3.0.0" , "install" : True},
+    "dei"      : {"version" : "4.0.0" , "install" : True},
 
     "muparser" : {"version" : "2.2.6" , "install" : True},
 
