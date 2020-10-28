@@ -18,7 +18,7 @@ libraries = {
     "boost"    : {"version" : "1.74.0", "install" : True},
 
     "metis"    : {"version" : "5.1.0" , "install" : True},
-    "petsc"    : {"version" : "3.14.0", "install" : True},
+    "petsc"    : {"version" : "3.12.4", "install" : True},
 
     "hdf5"     : {"version" : "1.10.5", "install" : True},
     "cgns"     : {"version" : "4.1.2" , "install" : True},
