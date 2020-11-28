@@ -29,6 +29,9 @@ class Cgns(Library):
     def install(self):
         Library.setup(self)
 
+        if os.path.exists(self.sourceDirectory):
+            shutil.rmtree(self.sourceDirectory)
+
         Library.extractLibrary(self)
         if not os.path.exists(self.sourceDirectory):
             Library.runCommand(self, "mv %s/CGNS-%s %s" % (self.buildDirectory, self.version, self.sourceDirectory))

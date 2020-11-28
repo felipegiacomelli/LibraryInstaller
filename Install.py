@@ -52,12 +52,14 @@ def checkArgv():
             Settings.libraries[library]["install"] = True
 
 def checkDependencies():
-    checkDependency("openmpi", "OPENMPI_DIR", "4.0.2")
+    checkDependency("openmpi", "OPENMPI_DIR", Settings.libraries["openmpi"]["version"])
 
     if Settings.libraries["petsc"]["install"]:
         checkDependency("metis", "METIS_DIR", "5.1.0")
 
     if Settings.libraries["dei"]["install"]:
+        if Settings.libraries["dei"]["version"] == "5.0.0":
+            checkDependency("mshtocgns", "MSHTOCGNS_DIR", "8.0.0")
         if Settings.libraries["dei"]["version"] == "4.0.0":
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "7.0.0")
         elif Settings.libraries["dei"]["version"] == "3.0.0":
@@ -68,7 +70,8 @@ def checkDependencies():
             checkDependency("mshtocgns", "MSHTOCGNS_DIR", "3.0.0")
 
     if Settings.libraries["mshtocgns"]["install"]:
-        if Settings.libraries["mshtocgns"]["version"] == "7.0.0":
+        version = Settings.libraries["mshtocgns"]["version"]
+        if version == "7.0.0" or version == "8.0.0":
             checkDependency("cgns", "CGNS_DIR", "4.1.2")
             checkDependency("boost", "BOOST_DIR", "1.74.0")
         elif Settings.libraries["mshtocgns"]["version"] == "2.0.0":
