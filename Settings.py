@@ -18,15 +18,15 @@ libraries = {
     "boost"    : {"version" : "1.74.0", "install" : True},
 
     "metis"    : {"version" : "5.1.0" , "install" : True},
-    "petsc"    : {"version" : "3.12.4", "install" : True},
+    "petsc"    : {"version" : "3.14.3", "install" : True},
 
     "hdf5"     : {"version" : "1.10.5", "install" : True},
     "cgns"     : {"version" : "4.1.2" , "install" : True},
-    "mshtocgns": {"version" : "7.0.0" , "install" : True},
+    "mshtocgns": {"version" : "8.0.0" , "install" : True},
 
-    "dei"      : {"version" : "4.0.0" , "install" : True},
+    "dei"      : {"version" : "5.0.0" , "install" : True},
 
-    "muparser" : {"version" : "2.2.6" , "install" : True},
+    "muparser" : {"version" : "2.3.2" , "install" : True},
 
     "triangle" : {"version" : "1.6.0" , "install" : False},
     "tetgen"   : {"version" : "1.5.1" , "install" : False}
