@@ -38,8 +38,9 @@ class Petsc(Library):
         Library.writeMessage(self, "Building")
         Library.runCommand(self, command="make MAKE_NP=%s all" % self.numberOfCores)
 
-        Library.writeMessage(self, "Testing")
-        Library.runCommand(self, command="make test")
+        # It takes too long starting version 3.13
+        # Library.writeMessage(self, "Testing")
+        # Library.runCommand(self, command="make test")
 
         Library.writeMessage(self, "Installing")
         Library.runCommand(self, command="make install")
