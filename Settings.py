@@ -9,10 +9,12 @@ compressedFiles = rootInstallDirectory + "/targz"
 
 releaseBuild = True
 sharedLibrary = True
+mpi = "openmpi"
 
 numberOfCores = str(multiprocessing.cpu_count())
 
 libraries = {
+    "mpich"    : {"version" : "3.4.1" , "install" : False},
     "openmpi"  : {"version" : "4.0.5" , "install" : True},
 
     "boost"    : {"version" : "1.74.0", "install" : True},

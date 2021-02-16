@@ -14,6 +14,7 @@ from Triangle import Triangle
 from Tetgen import Tetgen
 from Metis import Metis
 from DivideEtImpera import DivideEtImpera
+from Mpich import Mpich
 
 def main():
     options = {
@@ -24,6 +25,7 @@ def main():
         "rootInstallDirectory" : Settings.rootInstallDirectory,
         "buildType" : "release" if Settings.releaseBuild else "debug",
         "libraryType" : "shared" if Settings.sharedLibrary else "static",
+        "mpi" : Settings.mpi,
         "numberOfCores" : Settings.numberOfCores,
     }
 
@@ -52,7 +54,12 @@ def checkArgv():
             Settings.libraries[library]["install"] = True
 
 def checkDependencies():
-    checkDependency("openmpi", "OPENMPI_DIR", Settings.libraries["openmpi"]["version"])
+    if Settings.mpi == "openmpi":
+        checkDependency("openmpi", "OPENMPI_DIR", Settings.libraries["openmpi"]["version"])
+    elif Settings.mpi == "mpich":
+        checkDependency("mpich", "MPICH_DIR", Settings.libraries["mpich"]["version"])
+    else:
+        raise
 
     if Settings.libraries["petsc"]["install"]:
         checkDependency("metis", "METIS_DIR", "5.1.0")
@@ -102,9 +109,17 @@ def installLibraries(options):
     if Settings.libraries["openmpi"]["install"]:
         openmpi.install()
 
-    if openmpi.path not in os.environ["PATH"]:
+    mpich = Mpich(options, Settings.libraries["mpich"]["version"])
+    if Settings.libraries["mpich"]["install"]:
+        mpich.install()
+
+    if Settings.mpi == "openmpi" and openmpi.path not in os.environ["PATH"]:
         environ = os.environ.copy()
         environ["PATH"] = "%s:%s" % (openmpi.path, environ["PATH"])
+        os.environ.update(environ)
+    elif Settings.mpi == "mpich" and mpich.path not in os.environ["PATH"]:
+        environ = os.environ.copy()
+        environ["PATH"] = "%s:%s" % (mpich.path, environ["PATH"])
         os.environ.update(environ)
 
     if "CC" not in os.environ or "CXX" not in os.environ:
@@ -162,7 +177,7 @@ def yellow(message):
 def printOptions(options):
     print(purple("\noptions"))
     for key, value in options.items():
-        if key == "buildType" or key == "libraryType" or key == "systemPackages":
+        if key == "buildType" or key == "libraryType" or key == "systemPackages" or key == "mpi":
             print("\t%s : %s" % (key, yellow(value)))
         else:
             print("\t%s : %s" % (key, value))

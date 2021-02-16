@@ -13,6 +13,8 @@ packages.append("diffutils")
 packages.append("dos2unix")
 packages.append("tcl")
 packages.append("tk")
+packages.append("valgrind")
+packages.append("libfabric")
 
 def installSystemPackages(rootBuildDirectory):
     if not os.path.exists(rootBuildDirectory):
