@@ -7,7 +7,7 @@ rootBuildDirectory = os.environ["HOME"] + "/Delete"
 rootInstallDirectory = os.environ["HOME"] + "/Libraries"
 compressedFiles = rootInstallDirectory + "/targz"
 
-releaseBuild = True
+releaseBuild = False
 sharedLibrary = True
 mpi = "openmpi"
 
@@ -15,7 +15,7 @@ numberOfCores = str(multiprocessing.cpu_count())
 
 libraries = {
     "mpich"    : {"version" : "3.4.1" , "install" : False},
-    "openmpi"  : {"version" : "4.0.5" , "install" : True},
+    "openmpi"  : {"version" : "4.0.5" , "install" : False},
 
     "boost"    : {"version" : "1.74.0", "install" : True},
 
@@ -26,7 +26,7 @@ libraries = {
     "cgns"     : {"version" : "4.1.2" , "install" : True},
     "mshtocgns": {"version" : "8.0.0" , "install" : True},
 
-    "dei"      : {"version" : "5.0.0" , "install" : True},
+    "dei"      : {"version" : "2.0.0" , "install" : True},
 
     "muparser" : {"version" : "2.3.2" , "install" : True},
 
