@@ -32,8 +32,13 @@ class Petsc(Library):
         environ["PETSC_DIR"] = self.sourceDirectory
         os.environ.update(environ)
 
+        python = "python2"
+        if int(self.versionMajor) >= 3:
+            if int(self.versionMinor) > 12:
+                python = "python3"
+
         Library.writeMessage(self, "Running configure")
-        Library.runCommand(self, command="python3 ./configure %s --prefix=%s" % (self.flags["configure"], self.installDirectory))
+        Library.runCommand(self, command="%s ./configure %s --prefix=%s" % (python, self.flags["configure"], self.installDirectory))
 
         Library.writeMessage(self, "Building")
         Library.runCommand(self, command="make MAKE_NP=%s all" % self.numberOfCores)
